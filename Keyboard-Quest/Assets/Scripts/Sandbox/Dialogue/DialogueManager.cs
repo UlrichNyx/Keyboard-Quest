@@ -1,64 +1,80 @@
-﻿using System.Collections;
+﻿/* 
+# Author: Filippos Kontogiannis
+# Description: The class responsible for managing a dialogue by starting it, iterating it and ending it
+# Editors: ...
+*/
+
+// This class is taken from Brackeys: https://www.youtube.com/watch?v=_nRzoTzeyxU
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI; // Necessary import for working with UI
 
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : MonoBehaviour // This script should be attached to a DialogueManager object
 {
-    private Queue<string> sentences;
-    public Text dialogueText;
-    public Text nameText;
-    public Animator animator;
+    private Queue<string> sentences; // Current dialogue sentences
+    public Text dialogueText; // The text that displays on the UI
+    public Text nameText; // The name of the NPC that displays on the UI
+    public Animator animator; // The animator of the dialogue box --> for bringing it into and out from the screen
+
+
     // Start is called before the first frame update
     void Start()
     {
-        sentences = new Queue<string>();
+        sentences = new Queue<string>(); // A queue is used due to its FIFO
     }
 
     public void StartDialogue(Dialogue dialogue)
     {
-        animator.SetBool("IsOpen", true);
-        Debug.Log("Starting dialogue with " + dialogue.name);
-        sentences.Clear();
+        animator.SetBool("IsOpen", true); // Bring up the dialogue box
+        sentences.Clear(); // Clear anything that might have been in the sentences
         foreach(string sentence in dialogue.sentences)
         {
-            sentences.Enqueue(sentence);
+            sentences.Enqueue(sentence); // Enqueue every sentence from the new dialogue object
         }
-        nameText.text = dialogue.name;
-        DisplayNextSentence();
+        nameText.text = dialogue.name; // Change the name of who is speaking
+        DisplayNextSentence(); // Display the first sentence
     }
 
     public void DisplayNextSentence()
     {
-        if(sentences.Count == 0)
-        {
-            EndDialogue();
+        if(sentences.Count == 0) // If there are no more sentences
+        { 
+            EndDialogue(); // Stop the dialogue
             return;
         }
-
-        string sentence = sentences.Dequeue();
-        StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence));
+        
+        // Otherwise
+        string sentence = sentences.Dequeue(); // Bring out the next sentence
+        StopAllCoroutines(); // Stop typing out the previous one
+        StartCoroutine(TypeSentence(sentence)); // Display the next one
     }
 
     IEnumerator TypeSentence(string sentence)
     {
-        dialogueText.text = "";
-        foreach(char letter in sentence.ToCharArray())
+        dialogueText.text = ""; // Start from an empty string
+        foreach(char letter in sentence.ToCharArray()) // Go through the sentence char by char
         {
-            dialogueText.text += letter;
-            yield return null;
+            FindObjectOfType<AudioManager>().Play("Murmur"); // Play a murmur sound for each char (according to sound length)
+            dialogueText.text += letter; // Add the next letter
+            yield return null; // Call this function on every frame
         }
     }
 
+    // Check if the dialogue has ended (used for changing states of other objects etc.)
     public bool IsActive()
     {
         return animator.GetBool("IsOpen");
     }
 
+    // End the dialogue, thus closing the dialogue box
     public void EndDialogue()
     {
         animator.SetBool("IsOpen", false);
-        Debug.Log("End of the sentence!");
     }
 }
+
+/* TODOS:
+
+*/
