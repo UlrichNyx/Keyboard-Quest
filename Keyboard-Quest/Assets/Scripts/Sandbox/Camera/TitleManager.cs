@@ -54,7 +54,7 @@ public class TitleManager : MonoBehaviour // This script is typically attached t
         while (text.color.a < 1.0f)
         {
             text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a + (Time.deltaTime / t));
-            yield return null; // Essentially, this function is called every frame and thus incrementally updates the alpha
+            yield return null; // Essentially, this function is called every frame and thus incrementally updates the alpha over time t
         }
     }
  

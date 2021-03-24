@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator; // Used for changing sprite animations
     private Vector3 change; // Represents the change of position between frames
     private BoxCollider2D interactionBox;
+    private bool sprinting;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +24,22 @@ public class PlayerMovement : MonoBehaviour
         playerRigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         interactionBox = GetComponents<BoxCollider2D>()[1];
+        sprinting = false;
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R) && !sprinting)
+        {
+            speed = 1.5f;
+            sprinting = true;
+        }
+        else if(Input.GetKeyDown(KeyCode.R))
+        {
+            speed = 1f;
+            sprinting = false;
+        }
+
     }
 
     // Update is called once per frame
@@ -32,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
         change = Vector3.zero;
         change.x  = Input.GetAxisRaw("Horizontal");
         change.y = Input.GetAxisRaw("Vertical");
+        
         // If there was movement declared through wasd or the arrow keys
         if(change != Vector3.zero && player.currentState != PlayerState.interact)
         {

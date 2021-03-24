@@ -9,19 +9,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Stats
 {
     // There are 6 stats in total. 
     // They have been left as public so as to spare the set/get functions
-    public float resilience; // HP
-    public float strength; // Affects damage caused by heavy weapons
-    public float dexterity; // Affects damage caused by light weapons
-    public float wit; // Armor and Magic Resistance
-    public float luck; // Critical Strike chance
-    public float faith; // Magic Damage
+    [Range(0, 100)]
+    public int resilience; // HP
+    [Range(0, 100)]
+    public int strength; // Affects damage caused by heavy weapons
+    [Range(0, 100)]
+    public int dexterity; // Affects damage caused by light weapons
+    [Range(0, 100)]
+    public int wit; // Armor and Magic Resistance
+    [Range(0, 100)]
+    public int luck; // Critical Strike chance
+    [Range(0, 100)]
+    public int faith; // Magic Damage
 
     // Constructor used for setting Stats explicitly
-    public Stats(float resilience, float strength, float dexterity, float wit, float luck, float faith)
+    public Stats(int resilience, int strength, int dexterity, int wit, int luck, int faith)
     {
         this.resilience = resilience;
         this.strength = strength;

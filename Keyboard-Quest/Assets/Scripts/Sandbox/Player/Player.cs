@@ -1,6 +1,6 @@
 ﻿/* 
 # Author: Filippos Kontogiannis
-# Description: The umbrella class that gathers all scripts that have anything to do with the player
+# Description: The class that extends the entity class specifically for the player
 # Editors: ...
 */
 
@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// The total possible states the player can be in
 public enum PlayerState
 {
     idle,
@@ -16,22 +17,17 @@ public enum PlayerState
     interact
 }
 
-public class Player : MonoBehaviour
+// This class inherits from Entity and extends it by adding the PlayerClass and the GodFaith
+public class Player : Entity
 {
-    public PlayerState currentState;
-    private PlayerClass playerClass; // The placeholder variable for the chosen class of the player
-    private int level; // The current level of the player (MAX 100)
-    public Stats stats; // The current stats of the player
-    //private GodFaith godFaith; // The chosen faith of the player
-    public string direction;
+    public PlayerState currentState; // The current state the player is in
+    public PlayerClass playerClass; // The placeholder variable for the chosen class of the player
+    public GodFaith godFaith; // The chosen faith of the player
 
     //Initialize all variables on Start
     void Start()
     {
-        currentState = PlayerState.idle;
-        playerClass = new PlayerClass();
-        level = 1;
-        stats = new Stats(playerClass, level);
+        currentState = PlayerState.idle; // Let the default state be idle
     }
 }
 
