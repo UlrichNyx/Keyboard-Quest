@@ -64,6 +64,8 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
     public bool equippable; 
     public bool usable;
 
+    public bool equipped;
+
     public Effect effect; // What effect will the Item have?
 
     // The following variables are conditionally null depending on the choice of effect (thus they are all hidden from the Inspector)
@@ -87,7 +89,22 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
 
     public void Equip(GameObject owner) // The function to be called when the item is equipped by the owner
     {
+        Debug.Log("Equipped " + itemName);
+        equipped = true;
+        if(effect == Effect.changeStats)
+        {
+            owner.GetComponent<Entity>().stats.AddStats(stats);
+        }
+    }
 
+    public void Unequip(GameObject owner)
+    {
+        Debug.Log("Unequipped " + itemName);
+        equipped = false;
+        if(effect == Effect.changeStats)
+        {
+            owner.GetComponent<Entity>().stats.RemoveStats(stats);
+        }
     }
 }
 

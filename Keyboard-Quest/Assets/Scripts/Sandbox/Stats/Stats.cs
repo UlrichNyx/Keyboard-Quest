@@ -62,6 +62,25 @@ public class Stats
         // Alchemist: Proficiency in dexterity and wit
     }
 
+    public void AddStats(Stats stats)
+    {
+        this.resilience += stats.resilience;
+        this.strength += stats.strength;
+        this.dexterity += stats.dexterity;
+        this.wit += stats.wit;
+        this.luck += stats.luck;
+        this.faith += stats.faith;
+    }
+    public void RemoveStats(Stats stats)
+    {
+        this.resilience -= stats.resilience;
+        this.strength -= stats.strength;
+        this.dexterity -= stats.dexterity;
+        this.wit -= stats.wit;
+        this.luck -= stats.luck;
+        this.faith -= stats.faith;
+    }
+
     /* TODOS:
     - Complete proficiencies for all classes + god faiths
     - Add functions for simply incrementing a stat

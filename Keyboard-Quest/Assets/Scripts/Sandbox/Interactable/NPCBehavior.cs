@@ -110,13 +110,13 @@ public class NPCBehavior : MonoBehaviour
         }
         else if(instruction.command == Instruction.Command.idleDown) // Look down
         {
-            animator.SetFloat("MoveY", 1);
+            animator.SetFloat("MoveY", -1);
             animator.SetFloat("MoveX", 0);
             animator.SetBool("Moving", false);
         }
         else if(instruction.command == Instruction.Command.idleUp) // Look up
         {
-            animator.SetFloat("MoveY", -1);
+            animator.SetFloat("MoveY", 1);
             animator.SetFloat("MoveX", 0);
             animator.SetBool("Moving", false);
         }
