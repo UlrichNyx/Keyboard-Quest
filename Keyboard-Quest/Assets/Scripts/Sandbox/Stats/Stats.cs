@@ -15,7 +15,7 @@ public class Stats
     // There are 6 stats in total. 
     // They have been left as public so as to spare the set/get functions
     [Range(0, 100)]
-    public int resilience; // HP
+    public int resilience; // MAX HP
     [Range(0, 100)]
     public int strength; // Affects damage caused by heavy weapons
     [Range(0, 100)]
@@ -26,6 +26,11 @@ public class Stats
     public int luck; // Critical Strike chance
     [Range(0, 100)]
     public int faith; // Magic Damage
+
+    private Stats tempStatChange;
+
+    private static int MAX_STAT = 100;
+    private static int MIN_STAT = 0;
 
     // Constructor used for setting Stats explicitly
     public Stats(int resilience, int strength, int dexterity, int wit, int luck, int faith)
@@ -70,6 +75,8 @@ public class Stats
         this.wit += stats.wit;
         this.luck += stats.luck;
         this.faith += stats.faith;
+
+        MaintainStats();
     }
     public void RemoveStats(Stats stats)
     {
@@ -79,6 +86,25 @@ public class Stats
         this.wit -= stats.wit;
         this.luck -= stats.luck;
         this.faith -= stats.faith;
+
+        MaintainStats();
+    }
+
+    private void MaintainStats()
+    {
+        this.resilience = Mathf.Min(this.resilience, MAX_STAT);
+        this.strength = Mathf.Min(this.strength, MAX_STAT);
+        this.dexterity = Mathf.Min(this.dexterity, MAX_STAT);
+        this.wit = Mathf.Min(this.wit, MAX_STAT);
+        this.luck = Mathf.Min(this.luck, MAX_STAT);
+        this.faith = Mathf.Min(this.faith, MAX_STAT);
+
+        this.resilience = Mathf.Max(this.resilience, MIN_STAT);
+        this.strength = Mathf.Max(this.strength, MIN_STAT);
+        this.dexterity = Mathf.Max(this.dexterity, MIN_STAT);
+        this.wit = Mathf.Max(this.wit, MIN_STAT);
+        this.luck = Mathf.Max(this.luck, MIN_STAT);
+        this.faith = Mathf.Max(this.faith, MIN_STAT);
     }
 
     /* TODOS:

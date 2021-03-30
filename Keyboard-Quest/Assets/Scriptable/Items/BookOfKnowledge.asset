@@ -18,7 +18,8 @@ MonoBehaviour:
     Who knows what kind of power lies within their books...
   equippable: 1
   usable: 0
-  effect: 3
+  equipped: 1
+  effect: 0
   exp: 0
   stats:
     resilience: 0
@@ -26,6 +27,6 @@ MonoBehaviour:
     dexterity: 0
     wit: 0
     luck: 0
-    faith: 0
+    faith: 10
   damageType: 0
   buff: 0

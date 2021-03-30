@@ -64,7 +64,7 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
     public bool equippable; 
     public bool usable;
 
-    public bool equipped;
+    public bool equipped = false;
 
     public Effect effect; // What effect will the Item have?
 
