@@ -1,18 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [HideInInspector]
+    public Item item;
+    [HideInInspector]
+    public Image img;
+
+    void Start() 
     {
-        
+        img = GetComponent<Image>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ShowItemDescription()
     {
-        
+        GameObject.Find("Player").GetComponent<Inventory>().ShowItemDescription(item);
     }
 }

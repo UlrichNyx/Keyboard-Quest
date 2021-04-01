@@ -19,7 +19,7 @@ public class LevelLoader : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0)) // Temporary
         {
-            LoadNextLevel();
+            //LoadNextLevel();
         }
     }
 

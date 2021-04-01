@@ -22,6 +22,15 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Item")] // Allows this to be created through right clicking on the project folder
 public class Item : ScriptableObject // Allows this to be considered a scriptable object
 {
+    public enum ItemType
+    {
+        weapon,
+        armor,
+        consumable,
+        key,
+        tool
+    }
+
     // The Effect that the item has upon usage/equipment 
     public enum Effect
     {
@@ -63,8 +72,11 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
     // Determines whether or not the item can be equipped or used 
     public bool equippable; 
     public bool usable;
+    public bool droppable;
 
     public bool equipped = false;
+    
+    public ItemType type; // What type will the Item be?    
 
     public Effect effect; // What effect will the Item have?
 

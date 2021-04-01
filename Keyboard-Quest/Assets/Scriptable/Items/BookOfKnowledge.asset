@@ -18,7 +18,9 @@ MonoBehaviour:
     Who knows what kind of power lies within their books...
   equippable: 1
   usable: 0
-  equipped: 1
+  droppable: 0
+  equipped: 0
+  type: 0
   effect: 0
   exp: 0
   stats:
