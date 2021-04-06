@@ -38,7 +38,7 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
         }
 
-        Play("DeepForest"); // When the game starts, play the sound known as DeepForest
+        //Play("DeepForest"); // When the game starts, play the sound known as DeepForest
     }
         
     // This function should be called whenever a sound should be played

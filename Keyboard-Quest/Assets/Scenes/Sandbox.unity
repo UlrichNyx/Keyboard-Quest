@@ -13756,12 +13756,12 @@ MonoBehaviour:
   mana: 0
   exp: 0
   stats:
-    resilience: 0
+    resilience: 20
     strength: 0
     dexterity: 0
     wit: 0
     luck: 0
-    faith: 4
+    faith: 20
   currentState: 0
   playerClass:
     playerClass: 0
@@ -13966,7 +13966,7 @@ MonoBehaviour:
   items:
   - {fileID: 11400000, guid: 9ed5092c0c11c411c9205918f46fe78b, type: 2}
   - {fileID: 11400000, guid: dd2f7ead3083e47e1b5ac79c49a3f429, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 1dd00544877ca4a538d5d0c61dc7d581, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -14015,7 +14015,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   mainHandItem: {fileID: 0}
+  offHandItem: {fileID: 0}
   mainHandFrame: {fileID: 76706049}
+  offHandFrame: {fileID: 1595282592}
   inventoryUI: {fileID: 301384244}
 --- !u!1 &827972187
 GameObject:
@@ -18759,8 +18761,10 @@ GameObject:
   - component: {fileID: 1521843420}
   - component: {fileID: 1521843422}
   - component: {fileID: 1521843421}
+  - component: {fileID: 1521843423}
+  - component: {fileID: 1521843424}
   m_Layer: 5
-  m_Name: Image (14)
+  m_Name: MainHandSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18823,6 +18827,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1521843419}
   m_CullTransparentMesh: 0
+--- !u!114 &1521843423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521843419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e816aa3406d3e43e5ab09e661da3e284, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 0}
+  img: {fileID: 0}
+--- !u!114 &1521843424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521843419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1521843421}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1521843423}
+        m_TargetAssemblyTypeName: ItemSlot, Assembly-CSharp
+        m_MethodName: ShowItemDescription
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1534997386
 GameObject:
   m_ObjectHideFlags: 0
