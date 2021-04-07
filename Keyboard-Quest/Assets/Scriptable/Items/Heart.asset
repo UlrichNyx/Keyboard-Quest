@@ -19,7 +19,7 @@ MonoBehaviour:
   usable: 0
   droppable: 0
   equipped: 0
-  type: 2
+  type: 0
   effect: 0
   exp: 0
   stats:

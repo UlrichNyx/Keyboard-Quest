@@ -1,37 +1,64 @@
-﻿using System.Collections;
+﻿/* 
+# Author: Filippos Kontogiannis
+# Description: The class for the ItemSlots seen in the InventoryUI gameobject
+# Editors: ...
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI; // Necessary for working with UI
 
 public class Inventory : MonoBehaviour
 {
-    public Item[] items;
+    public Item[] items; // All the items the player has in their inventory, note that these are visible from the inspector
 
-    private Item[] weaponItems;
+    // The index variables below depic the last index in comparison to the total availability of the arrays (so a number from 0 to 49)
+    private Item[] weaponItems; // The subset of items that are weapons (can be held in the mainhand/offhand)
     private int lastWeaponIndex;
-    private Item[] armorItems;
+    private Item[] armorItems; // The subset of items that can be worn (can be equipped in the armor slots)
     private int lastArmorIndex;
-    private Item[] consumables;
+    private Item[] consumables; // The subset of items that can be used
     private int lastConsumableIndex;
-    private Item[] keyItems;
+    private Item[] keyItems; // The subset of items that are important for some quest (and therefore can't be dropped)
     private int lastKeyIndex;
-    private Item[] toolItems;
+    private Item[] toolItems; // The subset of items that can be used as tools
     private int lastToolIndex;
 
-    private Dictionary<string, Item[]> allItems;
-    private Dictionary<string, int> allIndices;
+    // Note that these index variables also represent how many items of a certain type the player holds
 
-    private string[] itemTypes;
-    private int index;
+    private Dictionary<string, Item[]> allItems; // The link between the category name and the subsets themselves
+    private Dictionary<string, int> allIndices; // The link between the subsets and their respective last index
 
-    // In-Game display
-    public Item mainHandItem;
+    private string[] itemTypes; // The pre-defined possible categories of items
+    private int index; // The index of the current category being shown in the UI
+
+    // In-Game display =====================================================
+
+    // A quick reference to the items for each slot on the player
+    public Item mainHandItem; 
     public Item offHandItem;
-    //public Item toolItem;
+    // public Item toolItem;
+    // public Item headItem;
+    // public Item shouldersItem;
+    // public Item chestItem;
+    // public Item waistItem;
+    // public Item legsItem;
+    // public Item feetItem;
+    // public Item ringItem;
+
+    // The frames that are shown in the in-game GUI 
     public Image mainHandFrame;
     public Image offHandFrame;
     //public Image toolFrame;
     
+    // The actual sprite that is shown on the player model
+    private SpriteRenderer mainHandSprite;
+    private SpriteRenderer offHandSprite;
+    // private SpriteRenderer toolSprite;
+    // private SpriteRenderer headItem;
+
+
     // Inventory window
     public GameObject inventoryUI;
 
@@ -55,7 +82,7 @@ public class Inventory : MonoBehaviour
     private ItemSlot offHandSlot;
     
 
-    private SpriteRenderer mainHandSprite;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -105,6 +132,8 @@ public class Inventory : MonoBehaviour
         offHandFrame.enabled = false;
         mainHandSprite = this.gameObject.transform.Find("MainHand").GetComponent<SpriteRenderer>();
         mainHandSprite.enabled = false;
+        offHandSprite = this.gameObject.transform.Find("OffHand").GetComponent<SpriteRenderer>();
+        offHandSprite.enabled = false;
 
         foreach (Item item in items)
         { 
@@ -169,7 +198,7 @@ public class Inventory : MonoBehaviour
 
         // Player preview
 
-        mainHandSlot = inventoryUI.transform.Find("PlayerPreview").transform.Find("ItemColumn").transform.Find("MainHandSlot").GetComponent<ItemSlot>();
+        mainHandSlot = inventoryUI.transform.Find("PlayerPreview").transform.Find("ItemColumn0").transform.Find("MainHandSlot").GetComponent<ItemSlot>();
         offHandSlot = inventoryUI.transform.Find("PlayerPreview").transform.Find("ItemColumn1").transform.Find("OffHandSlot").GetComponent<ItemSlot>();
     }
 
@@ -218,7 +247,6 @@ public class Inventory : MonoBehaviour
 
     public void ShowItemDescription(Item item)
     {
-        Debug.Log(item.equipped);
         equip.interactable = false;
         unequip.interactable = false;
         use.interactable = false;
@@ -269,32 +297,16 @@ public class Inventory : MonoBehaviour
             {
                 if(mainHandItem == null)
                 {
-                    mainHandItem = highlighted;
-                    mainHandItem.Equip(this.gameObject);
-                    mainHandFrame.enabled = true;
-                    mainHandSlot.item = mainHandItem;
-                    mainHandSlot.img.sprite = mainHandItem.icon;
-                    mainHandSlot.img.color = new Color32(255,255,255,255);
+                    EquipMainHand(highlighted);
                 }
                 else if(offHandItem == null)
                 {
-                    offHandItem = highlighted;
-                    offHandItem.Equip(this.gameObject);
-                    offHandFrame.enabled = true;
-                    offHandSlot.item = offHandItem;
-                    offHandSlot.img.sprite = offHandItem.icon;
-                    offHandSlot.img.color = new Color32(255,255,255,255);
+                    EquipOffHand(highlighted);
                 }
                 else
                 {
                     offHandItem.Unequip(this.gameObject);
-                    offHandItem = null;
-                    offHandItem = highlighted;
-                    offHandItem.Equip(this.gameObject);
-                    offHandFrame.enabled = true;
-                    offHandSlot.item = offHandItem;
-                    offHandSlot.img.sprite = offHandItem.icon;
-                    offHandSlot.img.color = new Color32(255,255,255,255);
+                    EquipOffHand(highlighted);
                 }
                 unequip.interactable = true;
                 equip.interactable = false;
@@ -314,23 +326,11 @@ public class Inventory : MonoBehaviour
             {
                 if(mainHandItem == highlighted)
                 {
-                    mainHandItem = null;
-                    highlighted.Unequip(this.gameObject);
-                    mainHandFrame.enabled = false;
-                    mainHandSprite.enabled = false;
-                    mainHandSlot.item = null;
-                    mainHandSlot.img.color = new Color32(0,0,0,255);
-                    mainHandSlot.img.sprite = null;
+                    UnequipMainHand();
                 }
                 else if(offHandItem == highlighted)
                 {
-                    offHandItem = null;
-                    highlighted.Unequip(this.gameObject);
-                    offHandFrame.enabled = false;
-                    //offHandSprite.enabled = false;
-                    offHandSlot.item = null;
-                    offHandSlot.img.color = new Color32(0,0,0,255);
-                    offHandSlot.img.sprite = null;
+                    UnequipOffHand();
                 }
 
             }
@@ -338,6 +338,64 @@ public class Inventory : MonoBehaviour
             unequip.interactable = false;
             equip.interactable = true;
         }
+    }
+
+    private void UnequipMainHand()
+    {
+        mainHandItem.Unequip(this.gameObject);
+        mainHandItem = null;
+        mainHandFrame.enabled = false;
+        mainHandSprite.enabled = false;
+
+        mainHandSlot.item = null;
+        mainHandSlot.img.color = new Color32(0,0,0,255);
+        mainHandSlot.img.sprite = null;
+
+    }
+
+    private void UnequipOffHand()
+    {
+        offHandItem.Unequip(this.gameObject);
+        offHandItem = null;
+
+        offHandFrame.enabled = false;
+        offHandSprite.enabled = false;
+                    
+        offHandSlot.item = null;
+        offHandSlot.img.color = new Color32(0,0,0,255);
+        offHandSlot.img.sprite = null;
+    }
+
+    private void EquipMainHand(Item item)
+    {
+        mainHandItem = item;
+        mainHandItem.Equip(this.gameObject);
+
+        mainHandFrame.enabled = true;
+        mainHandFrame.sprite = mainHandItem.icon;
+
+        mainHandSprite.sprite = mainHandItem.icon;
+        mainHandSprite.enabled = true;
+
+        mainHandSlot.item = mainHandItem;
+        mainHandSlot.img.sprite = mainHandItem.icon;
+        mainHandSlot.img.color = new Color32(255,255,255,255);
+    }
+
+    private void EquipOffHand(Item item)
+    {
+        offHandItem = item;
+        offHandItem.Equip(this.gameObject);
+
+        offHandFrame.enabled = true;
+        offHandFrame.sprite = offHandItem.icon;
+
+        offHandSprite.sprite = offHandItem.icon;
+        offHandSprite.enabled = true;
+
+        offHandSlot.item = offHandItem;
+        offHandSlot.img.sprite = offHandItem.icon;
+        offHandSlot.img.color = new Color32(255,255,255,255);
     }
 
     public void UseHighlightedItem()
