@@ -15,32 +15,32 @@ public class Stats
     // There are 6 stats in total. 
     // They have been left as public so as to spare the set/get functions
     [Range(0, 100)]
-    public int resilience; // MAX HP
+    public int RES; // MAX HP
     [Range(0, 100)]
-    public int strength; // Affects damage caused by heavy weapons
+    public int STR; // Affects damage caused by heavy weapons
     [Range(0, 100)]
-    public int dexterity; // Affects damage caused by light weapons
+    public int DEX; // Affects damage caused by light weapons
     [Range(0, 100)]
-    public int wit; // Armor and Magic Resistance
+    public int WIT; // Armor and Magic Resistance
     [Range(0, 100)]
-    public int luck; // Critical Strike chance
+    public int LCK; // Critical Strike chance
     [Range(0, 100)]
-    public int faith; // Magic Damage
+    public int FTH; // Magic Damage
 
     private Stats tempStatChange;
 
-    private static int MAX_STAT = 100;
-    private static int MIN_STAT = 0;
+    public static int MAX_STAT = 100;
+    public static int MIN_STAT = 0;
 
     // Constructor used for setting Stats explicitly
     public Stats(int resilience, int strength, int dexterity, int wit, int luck, int faith)
     {
-        this.resilience = resilience;
-        this.strength = strength;
-        this.dexterity = dexterity;
-        this.wit = wit;
-        this.luck = luck;
-        this.faith = faith;
+        this.RES = resilience;
+        this.STR = strength;
+        this.DEX = dexterity;
+        this.WIT = wit;
+        this.LCK = luck;
+        this.FTH = faith;
     }
 
     // Constructor used for setting Stats according to player class, level and god faith (Not yet fully implemented)
@@ -52,12 +52,12 @@ public class Stats
         // Knight: Proficiency in resilience and strength
         if(playerClass.GetName() == "Knight") 
         {
-            this.resilience = level * 2 + 10;
-            this.strength = level * 2 + 10;
-            this.dexterity = level + 5;
-            this.wit = level + 5;
-            this.luck = level + 5;
-            this.faith = level + 5;
+            this.RES = level * 2 + 10;
+            this.STR = level * 2 + 10;
+            this.DEX = level + 5;
+            this.WIT = level + 5;
+            this.LCK = level + 5;
+            this.FTH = level + 5;
         }
         // Scout: Proficiency in resilience and strength
         // Bard: Proficiency in resilience and dexterity
@@ -69,42 +69,42 @@ public class Stats
 
     public void AddStats(Stats stats)
     {
-        this.resilience += stats.resilience;
-        this.strength += stats.strength;
-        this.dexterity += stats.dexterity;
-        this.wit += stats.wit;
-        this.luck += stats.luck;
-        this.faith += stats.faith;
+        this.RES += stats.RES;
+        this.STR += stats.STR;
+        this.DEX += stats.DEX;
+        this.WIT += stats.WIT;
+        this.LCK += stats.LCK;
+        this.FTH += stats.FTH;
 
         MaintainStats();
     }
     public void RemoveStats(Stats stats)
     {
-        this.resilience -= stats.resilience;
-        this.strength -= stats.strength;
-        this.dexterity -= stats.dexterity;
-        this.wit -= stats.wit;
-        this.luck -= stats.luck;
-        this.faith -= stats.faith;
+        this.RES -= stats.RES;
+        this.STR -= stats.STR;
+        this.DEX -= stats.DEX;
+        this.WIT -= stats.WIT;
+        this.LCK -= stats.LCK;
+        this.FTH -= stats.FTH;
 
         MaintainStats();
     }
 
     private void MaintainStats()
     {
-        this.resilience = Mathf.Min(this.resilience, MAX_STAT);
-        this.strength = Mathf.Min(this.strength, MAX_STAT);
-        this.dexterity = Mathf.Min(this.dexterity, MAX_STAT);
-        this.wit = Mathf.Min(this.wit, MAX_STAT);
-        this.luck = Mathf.Min(this.luck, MAX_STAT);
-        this.faith = Mathf.Min(this.faith, MAX_STAT);
+        this.RES = Mathf.Min(this.RES, MAX_STAT);
+        this.STR = Mathf.Min(this.STR, MAX_STAT);
+        this.DEX = Mathf.Min(this.DEX, MAX_STAT);
+        this.WIT = Mathf.Min(this.WIT, MAX_STAT);
+        this.LCK = Mathf.Min(this.LCK, MAX_STAT);
+        this.FTH = Mathf.Min(this.FTH, MAX_STAT);
 
-        this.resilience = Mathf.Max(this.resilience, MIN_STAT);
-        this.strength = Mathf.Max(this.strength, MIN_STAT);
-        this.dexterity = Mathf.Max(this.dexterity, MIN_STAT);
-        this.wit = Mathf.Max(this.wit, MIN_STAT);
-        this.luck = Mathf.Max(this.luck, MIN_STAT);
-        this.faith = Mathf.Max(this.faith, MIN_STAT);
+        this.RES = Mathf.Max(this.RES, MIN_STAT);
+        this.STR = Mathf.Max(this.STR, MIN_STAT);
+        this.DEX = Mathf.Max(this.DEX, MIN_STAT);
+        this.WIT = Mathf.Max(this.WIT, MIN_STAT);
+        this.LCK = Mathf.Max(this.LCK, MIN_STAT);
+        this.FTH = Mathf.Max(this.FTH, MIN_STAT);
     }
 
     /* TODOS:

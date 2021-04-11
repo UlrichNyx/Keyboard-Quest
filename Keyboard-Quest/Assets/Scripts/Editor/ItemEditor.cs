@@ -18,12 +18,12 @@ public class ItemEditor : Editor
         Item item = (Item)target; // target refers to the object being inspected, cast this object to be of type Item
         if(item.effect == Item.Effect.changeStats) // If the chosen effect is for changing stats, display an editor for stats
         {
-            item.stats.resilience = EditorGUILayout.IntSlider("Resilience",item.stats.resilience, 0, 100);
-            item.stats.strength = EditorGUILayout.IntSlider("Strength",item.stats.strength, 0, 100);
-            item.stats.dexterity = EditorGUILayout.IntSlider("Dexterity",item.stats.dexterity , 0, 100);
-            item.stats.wit = EditorGUILayout.IntSlider("Wit",item.stats.wit, 0, 100);
-            item.stats.luck = EditorGUILayout.IntSlider("Luck",item.stats.luck, 0, 100);
-            item.stats.faith = EditorGUILayout.IntSlider("Faith",item.stats.faith, 0, 100);
+            item.stats.RES = EditorGUILayout.IntSlider("Resilience",item.stats.RES, 0, 100);
+            item.stats.STR = EditorGUILayout.IntSlider("Strength",item.stats.STR, 0, 100);
+            item.stats.DEX = EditorGUILayout.IntSlider("Dexterity",item.stats.DEX , 0, 100);
+            item.stats.WIT = EditorGUILayout.IntSlider("Wit",item.stats.WIT, 0, 100);
+            item.stats.LCK = EditorGUILayout.IntSlider("Luck",item.stats.LCK, 0, 100);
+            item.stats.FTH = EditorGUILayout.IntSlider("Faith",item.stats.FTH, 0, 100);
         }
         else if(item.effect == Item.Effect.giveExp) // If the chosen effect is for giving experience, show a slider for experience gains
         {

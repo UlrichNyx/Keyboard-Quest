@@ -198,8 +198,10 @@ public class Inventory : MonoBehaviour
 
         // Player preview
 
-        mainHandSlot = inventoryUI.transform.Find("PlayerPreview").transform.Find("ItemColumn0").transform.Find("MainHandSlot").GetComponent<ItemSlot>();
-        offHandSlot = inventoryUI.transform.Find("PlayerPreview").transform.Find("ItemColumn1").transform.Find("OffHandSlot").GetComponent<ItemSlot>();
+        mainHandSlot = inventoryUI.transform.Find("PlayerPreview").transform.Find("PlayerImage").transform.Find("ItemColumn0").transform.Find("MainHandSlot").GetComponent<ItemSlot>();
+        offHandSlot = inventoryUI.transform.Find("PlayerPreview").transform.Find("PlayerImage").transform.Find("ItemColumn1").transform.Find("OffHandSlot").GetComponent<ItemSlot>();
+
+        UpdateStats(); 
     }
 
     void ReloadItemSlots(Item[] currentItems)
@@ -312,6 +314,8 @@ public class Inventory : MonoBehaviour
                 equip.interactable = false;
             }
         }
+
+        UpdateStats();
     }
 
     public void UnequipHighlightedItem()
@@ -338,6 +342,7 @@ public class Inventory : MonoBehaviour
             unequip.interactable = false;
             equip.interactable = true;
         }
+        UpdateStats();
     }
 
     private void UnequipMainHand()
@@ -408,12 +413,67 @@ public class Inventory : MonoBehaviour
         
     }
 
+    private void UpdateStats()
+    {
+
+        Player player = this.gameObject.GetComponent<Player>();
+        Transform statsBar = inventoryUI.transform.Find("PlayerPreview").transform.Find("Stats");
+
+        //HP
+        statsBar.transform.Find("HP").transform.Find("HPValue").GetComponent<Text>().text = player.HP + "/" + player.maxHP;
+        RectTransform hpBarFull = statsBar.transform.Find("HP").transform.Find("HPBar").transform.Find("HPBarFull").GetComponent<RectTransform>();
+        RectTransform hpBar = statsBar.transform.Find("HP").transform.Find("HPBar").GetComponent<RectTransform>();
+        hpBarFull.sizeDelta = new Vector2(((float)player.HP / (float)player.maxHP) * hpBar.sizeDelta.x, hpBar.sizeDelta.y);
+        
+        //MP
+        statsBar.transform.Find("MP").transform.Find("MPValue").GetComponent<Text>().text = player.MP + "/" + player.maxMP;
+        RectTransform mpBarFull = statsBar.transform.Find("MP").transform.Find("MPBar").transform.Find("MPBarFull").GetComponent<RectTransform>();
+        RectTransform mpBar = statsBar.transform.Find("MP").transform.Find("MPBar").GetComponent<RectTransform>();
+        mpBarFull.sizeDelta = new Vector2(((float)player.MP / (float)player.maxMP) * mpBar.sizeDelta.x, mpBar.sizeDelta.y);
+        //EXP
+        statsBar.transform.Find("EXP").transform.Find("EXPValue").GetComponent<Text>().text = player.EXP + "/" + player.maxEXP;
+        RectTransform expBarFull = statsBar.transform.Find("EXP").transform.Find("EXPBar").transform.Find("EXPBarFull").GetComponent<RectTransform>();
+        RectTransform expBar = statsBar.transform.Find("EXP").transform.Find("EXPBar").GetComponent<RectTransform>();
+        expBarFull.sizeDelta = new Vector2(((float)player.EXP / (float)player.maxEXP) * expBar.sizeDelta.x, expBar.sizeDelta.y);
+        //RES
+        statsBar.transform.Find("RES").transform.Find("RESValue").GetComponent<Text>().text = player.stats.RES + "/" + Stats.MAX_STAT;
+        RectTransform resBarFull = statsBar.transform.Find("RES").transform.Find("RESBar").transform.Find("RESBarFull").GetComponent<RectTransform>();
+        RectTransform resBar = statsBar.transform.Find("RES").transform.Find("RESBar").GetComponent<RectTransform>();
+        resBarFull.sizeDelta = new Vector2(((float)player.stats.RES / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
+        //STR
+        statsBar.transform.Find("STR").transform.Find("STRValue").GetComponent<Text>().text = player.stats.STR + "/" + Stats.MAX_STAT;
+        RectTransform strBarFull = statsBar.transform.Find("STR").transform.Find("STRBar").transform.Find("STRBarFull").GetComponent<RectTransform>();
+        RectTransform strBar = statsBar.transform.Find("STR").transform.Find("STRBar").GetComponent<RectTransform>();
+        strBarFull.sizeDelta = new Vector2(((float)player.stats.STR / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
+        //DEX
+        statsBar.transform.Find("DEX").transform.Find("DEXValue").GetComponent<Text>().text = player.stats.DEX + "/" + Stats.MAX_STAT;
+        RectTransform dexBarFull = statsBar.transform.Find("DEX").transform.Find("DEXBar").transform.Find("DEXBarFull").GetComponent<RectTransform>();
+        RectTransform dexBar = statsBar.transform.Find("DEX").transform.Find("DEXBar").GetComponent<RectTransform>();
+        dexBarFull.sizeDelta = new Vector2(((float)player.stats.DEX / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
+        //WIT
+        statsBar.transform.Find("WIT").transform.Find("WITValue").GetComponent<Text>().text = player.stats.WIT + "/" + Stats.MAX_STAT;
+        RectTransform witBarFull = statsBar.transform.Find("WIT").transform.Find("WITBar").transform.Find("WITBarFull").GetComponent<RectTransform>();
+        RectTransform witBar = statsBar.transform.Find("WIT").transform.Find("WITBar").GetComponent<RectTransform>();
+        witBarFull.sizeDelta = new Vector2(((float)player.stats.WIT / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
+        //LCK
+        statsBar.transform.Find("LCK").transform.Find("LCKValue").GetComponent<Text>().text = player.stats.LCK + "/" + Stats.MAX_STAT;
+        RectTransform lckBarFull = statsBar.transform.Find("LCK").transform.Find("LCKBar").transform.Find("LCKBarFull").GetComponent<RectTransform>();
+        RectTransform lckBar = statsBar.transform.Find("LCK").transform.Find("LCKBar").GetComponent<RectTransform>();
+        lckBarFull.sizeDelta = new Vector2(((float)player.stats.LCK / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
+        //FTH
+        statsBar.transform.Find("FTH").transform.Find("FTHValue").GetComponent<Text>().text = player.stats.FTH + "/" + Stats.MAX_STAT;
+        RectTransform fthBarFull = statsBar.transform.Find("FTH").transform.Find("FTHBar").transform.Find("FTHBarFull").GetComponent<RectTransform>();
+        RectTransform fthBar = statsBar.transform.Find("FTH").transform.Find("FTHBar").GetComponent<RectTransform>();
+        fthBarFull.sizeDelta = new Vector2(((float)player.stats.FTH / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
+    }
+
     // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.I) && !inventoryUI.activeSelf)
         {
             inventoryUI.SetActive(true);
+            UpdateStats();
         }
         else if(Input.GetKeyDown(KeyCode.I))
         {

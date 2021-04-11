@@ -14,11 +14,17 @@ public class Entity : MonoBehaviour
     [Range(1,100)]
     public int level; // The level of the entity (MAX 100)
     [Range(0,999)]
-    public int hp; // The hp of the entity (MAX 999), this value depends on the resilience stat
+    public int maxHP;
+    [Range(0,999)]
+    public int HP; // The hp of the entity (MAX 999), this value depends on the resilience stat
     [Range(0,100)]
-    public int mana; // The mana of the entity (MAX 100), this value depends on the faith stat
+    public int maxMP;
+    [Range(0,100)]
+    public int MP; // The mana of the entity (MAX 100), this value depends on the faith stat
     [Range(0,1000)]
-    public int exp; // The experience of the entity that is needed to reach the next level (MAX 1000)
+    public int maxEXP;
+    [Range(0,1000)]
+    public int EXP; // The experience of the entity that is needed to reach the next level (MAX 1000)
     public Stats stats; // The combat related stats of the entity (As seen in the Stats class)
 }
 
