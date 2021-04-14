@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; // Necessary for working with UI
+using System;
 
 public class Inventory : MonoBehaviour
 {
@@ -30,34 +31,15 @@ public class Inventory : MonoBehaviour
     private Dictionary<string, Item[]> allItems; // The link between the category name and the subsets themselves
     private Dictionary<string, int> allIndices; // The link between the subsets and their respective last index
 
+    private Dictionary<Item.ArmorType, ItemSlot> armorSlots;
+
     private string[] itemTypes; // The pre-defined possible categories of items
     private int index; // The index of the current category being shown in the UI
 
     // In-Game display =====================================================
 
-    // A quick reference to the items for each slot on the player
-    public Item mainHandItem; 
-    public Item offHandItem;
-    // public Item toolItem;
-    // public Item headItem;
-    // public Item shouldersItem;
-    // public Item chestItem;
-    // public Item waistItem;
-    // public Item legsItem;
-    // public Item feetItem;
-    // public Item ringItem;
-
     // The frames that are shown in the in-game GUI 
-    public Image mainHandFrame;
-    public Image offHandFrame;
-    //public Image toolFrame;
-    
-    // The actual sprite that is shown on the player model
-    private SpriteRenderer mainHandSprite;
-    private SpriteRenderer offHandSprite;
-    // private SpriteRenderer toolSprite;
-    // private SpriteRenderer headItem;
-
+    public Image mainHandFrame, offHandFrame, toolFrame;
 
     // Inventory window
     public GameObject inventoryUI;
@@ -71,19 +53,13 @@ public class Inventory : MonoBehaviour
     private Text itemTypeDisplay;
     private Item highlighted;
 
-    private Button equip;
-    private Button unequip;
-    private Button use;
-    private Button drop;
+    private Button equip, unequip, use, drop;
 
     // Player Display
+    private ItemSlot mainHandSlot, offHandSlot, toolSlot, headSlot, shoulderSlot, chestSlot, waistSlot, legsSlot, feetSlot, ringSlot;
+    private Text levelLabel;
 
-    private ItemSlot mainHandSlot;
-    private ItemSlot offHandSlot;
-    
 
-    
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -130,10 +106,107 @@ public class Inventory : MonoBehaviour
 
         mainHandFrame.enabled = false;
         offHandFrame.enabled = false;
-        mainHandSprite = this.gameObject.transform.Find("MainHand").GetComponent<SpriteRenderer>();
-        mainHandSprite.enabled = false;
-        offHandSprite = this.gameObject.transform.Find("OffHand").GetComponent<SpriteRenderer>();
-        offHandSprite.enabled = false;
+        toolFrame.enabled = false;
+
+        ReloadItemCategories();
+        
+        int counter = 0;
+        
+        itemSlots = new ItemSlot[50];
+        foreach(Transform child in inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemsGrid"))
+        {
+            foreach(Transform c in child.transform)
+            {
+                itemSlots[counter] = c.GetComponent<ItemSlot>();
+                if(weaponItems[counter] != null)
+                {
+                    itemSlots[counter].img.color = new Color32(255,255,255,255);
+                    itemSlots[counter].img.sprite = weaponItems[counter].icon;
+                    itemSlots[counter].item = weaponItems[counter];
+                }
+                counter += 1;
+            }
+        }
+
+        itemIconDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemIcon").GetComponent<Image>();
+        itemNameDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemNameText").GetComponent<Text>();
+        itemDescriptionDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemDescriptionText").GetComponent<Text>();
+        itemTypeDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemTypeText").GetComponent<Text>();
+        itemTypeDisplay.text = itemTypes[index];
+        inventoryUI.SetActive(false);
+
+
+        // Player preview
+
+
+        // Left Column
+        Transform column0 = inventoryUI.transform.Find("PlayerPreview").transform.Find("PlayerImage").transform.Find("ItemColumn0").transform;
+        headSlot = column0.Find("HeadSlot").GetComponent<ItemSlot>();
+        shoulderSlot = column0.Find("ShoulderSlot").GetComponent<ItemSlot>();
+        chestSlot = column0.Find("ChestSlot").GetComponent<ItemSlot>();
+        waistSlot = column0.Find("WaistSlot").GetComponent<ItemSlot>();
+        mainHandSlot = column0.Find("MainHandSlot").GetComponent<ItemSlot>();
+
+        // Right Column
+        Transform column1 = inventoryUI.transform.Find("PlayerPreview").transform.Find("PlayerImage").transform.Find("ItemColumn1").transform;
+        legsSlot = column1.Find("LegsSlot").GetComponent<ItemSlot>();
+        feetSlot = column1.Find("FeetSlot").GetComponent<ItemSlot>();
+        ringSlot = column1.Find("RingSlot").GetComponent<ItemSlot>();
+        toolSlot = column1.Find("ToolSlot").GetComponent<ItemSlot>();
+        offHandSlot = column1.Find("OffHandSlot").GetComponent<ItemSlot>();
+
+        // Level Display
+        levelLabel = inventoryUI.transform.Find("PlayerPreview").transform.Find("Stats").transform.Find("LVL").GetComponent<Text>();
+        UpdateStats(); 
+
+
+        headSlot.sprite = this.gameObject.transform.Find("Head").GetComponent<SpriteRenderer>();
+        headSlot.sprite.enabled = false;
+        mainHandSlot.sprite = this.gameObject.transform.Find("MainHand").GetComponent<SpriteRenderer>();
+        mainHandSlot.sprite.enabled = false;
+        mainHandSlot.frame = mainHandFrame;
+        offHandSlot.sprite = this.gameObject.transform.Find("OffHand").GetComponent<SpriteRenderer>();
+        offHandSlot.sprite.enabled = false;
+        offHandSlot.frame = offHandFrame;
+        toolSlot.sprite = this.gameObject.transform.Find("Tool").GetComponent<SpriteRenderer>();
+        toolSlot.sprite.enabled = false;
+        toolSlot.frame = toolFrame;
+        shoulderSlot.sprite = this.gameObject.transform.Find("Shoulder").GetComponent<SpriteRenderer>();
+        shoulderSlot.sprite.enabled = false;
+        chestSlot.sprite = this.gameObject.transform.Find("Chest").GetComponent<SpriteRenderer>();
+        chestSlot.sprite.enabled = false;
+        waistSlot.sprite = this.gameObject.transform.Find("Waist").GetComponent<SpriteRenderer>();
+        waistSlot.sprite.enabled = false;
+        legsSlot.sprite = this.gameObject.transform.Find("Legs").GetComponent<SpriteRenderer>();
+        legsSlot.sprite.enabled = false;
+        feetSlot.sprite = this.gameObject.transform.Find("Feet").GetComponent<SpriteRenderer>();
+        feetSlot.sprite.enabled = false;
+        ringSlot.sprite = this.gameObject.transform.Find("Ring").GetComponent<SpriteRenderer>();
+        ringSlot.sprite.enabled = false;
+
+        armorSlots = new Dictionary<Item.ArmorType, ItemSlot>();
+        armorSlots.Add(Item.ArmorType.head, headSlot);
+        armorSlots.Add(Item.ArmorType.shoulder, shoulderSlot);
+        armorSlots.Add(Item.ArmorType.chest, chestSlot);
+        armorSlots.Add(Item.ArmorType.waist, waistSlot);
+        armorSlots.Add(Item.ArmorType.legs, legsSlot);
+        armorSlots.Add(Item.ArmorType.feet, feetSlot);
+        armorSlots.Add(Item.ArmorType.ring, ringSlot);
+    }
+
+    void ReloadItemCategories()
+    {
+        lastWeaponIndex = 0;
+        lastArmorIndex = 0;
+        lastConsumableIndex = 0;
+        lastKeyIndex = 0;
+        lastToolIndex = 0;
+
+        Array.Clear(weaponItems, 0, weaponItems.Length);
+        Array.Clear(armorItems, 0, weaponItems.Length);
+        Array.Clear(consumables, 0, weaponItems.Length);
+        Array.Clear(keyItems, 0, weaponItems.Length);
+        Array.Clear(toolItems, 0, weaponItems.Length);
 
         foreach (Item item in items)
         { 
@@ -169,39 +242,6 @@ public class Inventory : MonoBehaviour
                 lastToolIndex += 1;
             }
         }
-        
-        int counter = 0;
-        
-        itemSlots = new ItemSlot[50];
-        foreach(Transform child in inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemsGrid"))
-        {
-            foreach(Transform c in child.transform)
-            {
-                itemSlots[counter] = c.GetComponent<ItemSlot>();
-                if(weaponItems[counter] != null)
-                {
-                    itemSlots[counter].img.color = new Color32(255,255,255,255);
-                    itemSlots[counter].img.sprite = weaponItems[counter].icon;
-                    itemSlots[counter].item = weaponItems[counter];
-                }
-                counter += 1;
-            }
-        }
-
-        itemIconDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemIcon").GetComponent<Image>();
-        itemNameDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemNameText").GetComponent<Text>();
-        itemDescriptionDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemDescriptionText").GetComponent<Text>();
-        itemTypeDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemTypeText").GetComponent<Text>();
-        itemTypeDisplay.text = itemTypes[index];
-        inventoryUI.SetActive(false);
-
-
-        // Player preview
-
-        mainHandSlot = inventoryUI.transform.Find("PlayerPreview").transform.Find("PlayerImage").transform.Find("ItemColumn0").transform.Find("MainHandSlot").GetComponent<ItemSlot>();
-        offHandSlot = inventoryUI.transform.Find("PlayerPreview").transform.Find("PlayerImage").transform.Find("ItemColumn1").transform.Find("OffHandSlot").GetComponent<ItemSlot>();
-
-        UpdateStats(); 
     }
 
     void ReloadItemSlots(Item[] currentItems)
@@ -297,22 +337,46 @@ public class Inventory : MonoBehaviour
         {
             if(highlighted.type == Item.ItemType.weapon)
             {
-                if(mainHandItem == null)
+                if(mainHandSlot.item == null)
                 {
-                    EquipMainHand(highlighted);
+                    mainHandSlot.item = EquipSlot(highlighted, mainHandSlot);
                 }
-                else if(offHandItem == null)
+                else if(offHandSlot.item == null)
                 {
-                    EquipOffHand(highlighted);
+                    offHandSlot.item = EquipSlot(highlighted, offHandSlot);
                 }
                 else
                 {
-                    offHandItem.Unequip(this.gameObject);
-                    EquipOffHand(highlighted);
+                    offHandSlot.item.Unequip(this.gameObject);
+                    offHandSlot.item = EquipSlot(highlighted, offHandSlot);
                 }
-                unequip.interactable = true;
-                equip.interactable = false;
             }
+            else if(highlighted.type == Item.ItemType.armor)
+            {
+                if(armorSlots[highlighted.armorType].item == null)
+                {
+                    armorSlots[highlighted.armorType].item = EquipSlot(highlighted, armorSlots[highlighted.armorType]);
+                }
+                else
+                {
+                    armorSlots[highlighted.armorType].item.Unequip(this.gameObject);
+                    armorSlots[highlighted.armorType].item = EquipSlot(highlighted, armorSlots[highlighted.armorType]);
+                }
+            }
+            else if(highlighted.type == Item.ItemType.tool)
+            {
+                if(toolSlot.item == null)
+                {
+                    toolSlot.item = EquipSlot(highlighted, toolSlot);
+                }
+                else
+                {
+                    toolSlot.item.Unequip(this.gameObject);
+                    toolSlot.item = EquipSlot(highlighted, toolSlot);
+                }
+            }
+            unequip.interactable = true;
+            equip.interactable = false;
         }
 
         UpdateStats();
@@ -328,15 +392,25 @@ public class Inventory : MonoBehaviour
         {
             if(highlighted.type == Item.ItemType.weapon)
             {
-                if(mainHandItem == highlighted)
+                if(mainHandSlot.item == highlighted)
                 {
-                    UnequipMainHand();
+                    mainHandSlot.item = UnequipSlot(mainHandSlot);
                 }
-                else if(offHandItem == highlighted)
+                else if(offHandSlot.item == highlighted)
                 {
-                    UnequipOffHand();
+                    offHandSlot.item = UnequipSlot(offHandSlot);
                 }
 
+            }
+            else if(highlighted.type == Item.ItemType.armor)
+            {
+                
+                armorSlots[highlighted.armorType].item = UnequipSlot(armorSlots[highlighted.armorType]);
+            }
+            else if(highlighted.type == Item.ItemType.tool)
+            {
+
+                toolSlot.item = UnequipSlot(toolSlot);
             }
             
             unequip.interactable = false;
@@ -345,126 +419,95 @@ public class Inventory : MonoBehaviour
         UpdateStats();
     }
 
-    private void UnequipMainHand()
+    private Item UnequipSlot(ItemSlot slot)
     {
-        mainHandItem.Unequip(this.gameObject);
-        mainHandItem = null;
-        mainHandFrame.enabled = false;
-        mainHandSprite.enabled = false;
+        slot.item.Unequip(this.gameObject);
+        slot.item = null;
 
-        mainHandSlot.item = null;
-        mainHandSlot.img.color = new Color32(0,0,0,255);
-        mainHandSlot.img.sprite = null;
-
-    }
-
-    private void UnequipOffHand()
-    {
-        offHandItem.Unequip(this.gameObject);
-        offHandItem = null;
-
-        offHandFrame.enabled = false;
-        offHandSprite.enabled = false;
+        if(slot.frame != null)
+        {
+            slot.frame.enabled = false;
+        }
+        slot.sprite.enabled = false;
                     
-        offHandSlot.item = null;
-        offHandSlot.img.color = new Color32(0,0,0,255);
-        offHandSlot.img.sprite = null;
+        slot.img.color = new Color32(0,0,0,255);
+        slot.img.sprite = null;
+
+        return slot.item;
     }
 
-    private void EquipMainHand(Item item)
+    private Item EquipSlot(Item item, ItemSlot slot)
     {
-        mainHandItem = item;
-        mainHandItem.Equip(this.gameObject);
+        slot.item = item;
+        slot.item.Equip(this.gameObject);
 
-        mainHandFrame.enabled = true;
-        mainHandFrame.sprite = mainHandItem.icon;
+        if(slot.frame != null)
+        {
+            slot.frame.enabled = true;
+            slot.frame.sprite = slot.item.icon;
+        }
+        
+        slot.sprite.sprite = slot.item.icon;
+        slot.sprite.enabled = true;
 
-        mainHandSprite.sprite = mainHandItem.icon;
-        mainHandSprite.enabled = true;
-
-        mainHandSlot.item = mainHandItem;
-        mainHandSlot.img.sprite = mainHandItem.icon;
-        mainHandSlot.img.color = new Color32(255,255,255,255);
-    }
-
-    private void EquipOffHand(Item item)
-    {
-        offHandItem = item;
-        offHandItem.Equip(this.gameObject);
-
-        offHandFrame.enabled = true;
-        offHandFrame.sprite = offHandItem.icon;
-
-        offHandSprite.sprite = offHandItem.icon;
-        offHandSprite.enabled = true;
-
-        offHandSlot.item = offHandItem;
-        offHandSlot.img.sprite = offHandItem.icon;
-        offHandSlot.img.color = new Color32(255,255,255,255);
+        slot.img.sprite = slot.item.icon;
+        slot.img.color = new Color32(255,255,255,255);
+        return slot.item;
     }
 
     public void UseHighlightedItem()
     {
-
+        if(highlighted == null)
+        {
+            Debug.Log("No item selected!");
+        }
+        highlighted.Use(this.gameObject);
+        if(highlighted.consumed)
+        {
+            for(int i = 0; i < items.Length; i++) 
+            {
+                if(items[i] == highlighted)
+                {
+                    items[i] = null;
+                    ReloadItemCategories();
+                    ReloadItemSlots(allItems[itemTypes[index]]);
+                    ShowItemDescription(null);
+                }
+            }
+            use.interactable = false;
+        }
+        UpdateStats();
     }
 
     public void DropHighlightedItem()
     {
-        
+        UpdateStats();
+    }
+
+    private void UpdateStatBar(string name, Transform statsBar, Player player, int val, int maxVal)
+    {
+        statsBar.transform.Find(name).transform.Find(name + "Value").GetComponent<Text>().text = val + "/" + maxVal;
+        RectTransform barFull = statsBar.transform.Find(name).transform.Find(name + "Bar").transform.Find(name +"BarFull").GetComponent<RectTransform>();
+        RectTransform bar = statsBar.transform.Find(name).transform.Find(name +"Bar").GetComponent<RectTransform>();
+        barFull.sizeDelta = new Vector2(((float)val / (float)maxVal) * bar.sizeDelta.x, bar.sizeDelta.y);
     }
 
     private void UpdateStats()
     {
-
+        
         Player player = this.gameObject.GetComponent<Player>();
         Transform statsBar = inventoryUI.transform.Find("PlayerPreview").transform.Find("Stats");
 
-        //HP
-        statsBar.transform.Find("HP").transform.Find("HPValue").GetComponent<Text>().text = player.HP + "/" + player.maxHP;
-        RectTransform hpBarFull = statsBar.transform.Find("HP").transform.Find("HPBar").transform.Find("HPBarFull").GetComponent<RectTransform>();
-        RectTransform hpBar = statsBar.transform.Find("HP").transform.Find("HPBar").GetComponent<RectTransform>();
-        hpBarFull.sizeDelta = new Vector2(((float)player.HP / (float)player.maxHP) * hpBar.sizeDelta.x, hpBar.sizeDelta.y);
-        
-        //MP
-        statsBar.transform.Find("MP").transform.Find("MPValue").GetComponent<Text>().text = player.MP + "/" + player.maxMP;
-        RectTransform mpBarFull = statsBar.transform.Find("MP").transform.Find("MPBar").transform.Find("MPBarFull").GetComponent<RectTransform>();
-        RectTransform mpBar = statsBar.transform.Find("MP").transform.Find("MPBar").GetComponent<RectTransform>();
-        mpBarFull.sizeDelta = new Vector2(((float)player.MP / (float)player.maxMP) * mpBar.sizeDelta.x, mpBar.sizeDelta.y);
-        //EXP
-        statsBar.transform.Find("EXP").transform.Find("EXPValue").GetComponent<Text>().text = player.EXP + "/" + player.maxEXP;
-        RectTransform expBarFull = statsBar.transform.Find("EXP").transform.Find("EXPBar").transform.Find("EXPBarFull").GetComponent<RectTransform>();
-        RectTransform expBar = statsBar.transform.Find("EXP").transform.Find("EXPBar").GetComponent<RectTransform>();
-        expBarFull.sizeDelta = new Vector2(((float)player.EXP / (float)player.maxEXP) * expBar.sizeDelta.x, expBar.sizeDelta.y);
-        //RES
-        statsBar.transform.Find("RES").transform.Find("RESValue").GetComponent<Text>().text = player.stats.RES + "/" + Stats.MAX_STAT;
-        RectTransform resBarFull = statsBar.transform.Find("RES").transform.Find("RESBar").transform.Find("RESBarFull").GetComponent<RectTransform>();
-        RectTransform resBar = statsBar.transform.Find("RES").transform.Find("RESBar").GetComponent<RectTransform>();
-        resBarFull.sizeDelta = new Vector2(((float)player.stats.RES / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
-        //STR
-        statsBar.transform.Find("STR").transform.Find("STRValue").GetComponent<Text>().text = player.stats.STR + "/" + Stats.MAX_STAT;
-        RectTransform strBarFull = statsBar.transform.Find("STR").transform.Find("STRBar").transform.Find("STRBarFull").GetComponent<RectTransform>();
-        RectTransform strBar = statsBar.transform.Find("STR").transform.Find("STRBar").GetComponent<RectTransform>();
-        strBarFull.sizeDelta = new Vector2(((float)player.stats.STR / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
-        //DEX
-        statsBar.transform.Find("DEX").transform.Find("DEXValue").GetComponent<Text>().text = player.stats.DEX + "/" + Stats.MAX_STAT;
-        RectTransform dexBarFull = statsBar.transform.Find("DEX").transform.Find("DEXBar").transform.Find("DEXBarFull").GetComponent<RectTransform>();
-        RectTransform dexBar = statsBar.transform.Find("DEX").transform.Find("DEXBar").GetComponent<RectTransform>();
-        dexBarFull.sizeDelta = new Vector2(((float)player.stats.DEX / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
-        //WIT
-        statsBar.transform.Find("WIT").transform.Find("WITValue").GetComponent<Text>().text = player.stats.WIT + "/" + Stats.MAX_STAT;
-        RectTransform witBarFull = statsBar.transform.Find("WIT").transform.Find("WITBar").transform.Find("WITBarFull").GetComponent<RectTransform>();
-        RectTransform witBar = statsBar.transform.Find("WIT").transform.Find("WITBar").GetComponent<RectTransform>();
-        witBarFull.sizeDelta = new Vector2(((float)player.stats.WIT / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
-        //LCK
-        statsBar.transform.Find("LCK").transform.Find("LCKValue").GetComponent<Text>().text = player.stats.LCK + "/" + Stats.MAX_STAT;
-        RectTransform lckBarFull = statsBar.transform.Find("LCK").transform.Find("LCKBar").transform.Find("LCKBarFull").GetComponent<RectTransform>();
-        RectTransform lckBar = statsBar.transform.Find("LCK").transform.Find("LCKBar").GetComponent<RectTransform>();
-        lckBarFull.sizeDelta = new Vector2(((float)player.stats.LCK / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
-        //FTH
-        statsBar.transform.Find("FTH").transform.Find("FTHValue").GetComponent<Text>().text = player.stats.FTH + "/" + Stats.MAX_STAT;
-        RectTransform fthBarFull = statsBar.transform.Find("FTH").transform.Find("FTHBar").transform.Find("FTHBarFull").GetComponent<RectTransform>();
-        RectTransform fthBar = statsBar.transform.Find("FTH").transform.Find("FTHBar").GetComponent<RectTransform>();
-        fthBarFull.sizeDelta = new Vector2(((float)player.stats.FTH / (float)Stats.MAX_STAT) * expBar.sizeDelta.x, expBar.sizeDelta.y);
+        levelLabel.text = "Lv. " + player.level + "/\n" + player.maxLevel;
+        UpdateStatBar("HP", statsBar, player, player.HP, player.maxHP);
+        UpdateStatBar("MP", statsBar, player, player.MP, player.maxMP);
+        UpdateStatBar("EXP", statsBar, player, player.EXP, player.maxEXP);
+        UpdateStatBar("RES", statsBar, player, player.stats.RES, Stats.MAX_STAT);
+        UpdateStatBar("STR", statsBar, player, player.stats.STR, Stats.MAX_STAT);
+        UpdateStatBar("DEX", statsBar, player, player.stats.DEX, Stats.MAX_STAT);
+        UpdateStatBar("WIT", statsBar, player, player.stats.WIT, Stats.MAX_STAT);
+        UpdateStatBar("LCK", statsBar, player, player.stats.LCK, Stats.MAX_STAT);
+        UpdateStatBar("FTH", statsBar, player, player.stats.FTH, Stats.MAX_STAT);
     }
 
     // Update is called once per frame

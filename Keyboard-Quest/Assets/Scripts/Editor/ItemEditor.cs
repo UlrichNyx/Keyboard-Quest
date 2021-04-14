@@ -16,6 +16,7 @@ public class ItemEditor : Editor
     {
         base.OnInspectorGUI(); // Display everything as you normally would (base) But: 
         Item item = (Item)target; // target refers to the object being inspected, cast this object to be of type Item
+
         if(item.effect == Item.Effect.changeStats) // If the chosen effect is for changing stats, display an editor for stats
         {
             item.stats.RES = EditorGUILayout.IntSlider("Resilience",item.stats.RES, 0, 100);
@@ -37,6 +38,11 @@ public class ItemEditor : Editor
         else if(item.effect == Item.Effect.giveBuff) // Show the different buffs one can gain
         {
             item.buff = (Item.Buff)EditorGUILayout.EnumPopup("Buff", item.buff);
+        }
+
+        if(item.type == Item.ItemType.armor)
+        {
+            item.armorType = (Item.ArmorType)EditorGUILayout.EnumPopup("Armor Type", item.armorType);
         }
     }
 

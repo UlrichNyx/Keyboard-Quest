@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e78ec7d6fe0de4667a34dad1cbbbe15b, type: 3}
+  m_Name: RustyHelmet
+  m_EditorClassIdentifier: 
+  itemName: Rusty Helmet
+  icon: {fileID: 4455232240493665095, guid: c7f7703259ce5445680862eaa2bb7231, type: 3}
+  description: Found in the aftermath of a war. This helmet has seen its share of
+    conflict...
+  equippable: 1
+  usable: 0
+  droppable: 0
+  equipped: 0
+  type: 1
+  effect: 0
+  armorType: 0
+  exp: 0
+  stats:
+    RES: 5
+    STR: 0
+    DEX: 0
+    WIT: 0
+    LCK: 0
+    FTH: 0
+  damageType: 0
+  buff: 0

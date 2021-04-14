@@ -15,6 +15,10 @@ public class ItemSlot : MonoBehaviour
     public Item item; // The item that the gameobject is holding
     [HideInInspector]
     public Image img; // The img that the gameobject should display
+    [HideInInspector]
+    public SpriteRenderer sprite;
+    [HideInInspector]
+    public Image frame;
 
     void Start() 
     {

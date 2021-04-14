@@ -31,6 +31,18 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
         tool
     }
 
+    public enum ArmorType
+    {
+        head,
+        shoulder,
+        chest,
+        waist,
+        legs,
+        feet,
+        ring
+
+    }
+
     // The Effect that the item has upon usage/equipment 
     public enum Effect
     {
@@ -75,11 +87,18 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
     public bool droppable;
 
     [HideInInspector]
+    public bool consumed;
+
+    [HideInInspector]
     public bool equipped = false;
     
-    public ItemType type; // What type will the Item be?    
-
+    public ItemType type; // What type will the Item be? 
+     
+    
     public Effect effect; // What effect will the Item have?
+
+    [HideInInspector]  
+    public ArmorType armorType; // If it is armor, then where does it go?
 
     // The following variables are conditionally null depending on the choice of effect (thus they are all hidden from the Inspector)
     [HideInInspector]
@@ -91,14 +110,7 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
     [HideInInspector]
     public Buff buff; // If giveBuff is chosen
 
-    public void Use(GameObject user) // The function to be called when the item is used by the user
-    {
-        if(effect == Effect.changeStats) // If the effect of the item is to change the stats then:
-        {
-            //user.GetComponent<Player>().stats = 
-        }
-
-    }
+    
 
     public void Equip(GameObject owner) // The function to be called when the item is equipped by the owner
     {
@@ -117,6 +129,16 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
         if(effect == Effect.changeStats)
         {
             owner.GetComponent<Entity>().stats.RemoveStats(stats);
+        }
+    }
+
+    public void Use(GameObject owner) // The function to be called when the item is equipped by the owner
+    {
+        Debug.Log("Used " + itemName);
+        consumed = true;
+        if(effect == Effect.changeStats)
+        {
+            owner.GetComponent<Entity>().stats.AddStats(stats);
         }
     }
 }

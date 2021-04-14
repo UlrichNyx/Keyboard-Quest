@@ -12,10 +12,12 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     [Range(1,100)]
+    public int maxLevel;
+    [Range(1,100)]
     public int level; // The level of the entity (MAX 100)
     [Range(0,999)]
     public int maxHP;
-    [Range(0,999)]
+    [Range(0, 999)]
     public int HP; // The hp of the entity (MAX 999), this value depends on the resilience stat
     [Range(0,100)]
     public int maxMP;
