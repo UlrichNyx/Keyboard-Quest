@@ -79,6 +79,18 @@ public class PlayerInteraction : MonoBehaviour
                 trigger = other.GetComponent<DialogueTrigger>();
                 trigger.TriggerDialogue(); // Trigger the dialogue
             }
+            else if(other.CompareTag("Pickup"))
+            {
+                Debug.Log("Interacted with Pickup");
+                if(this.GetComponent<Inventory>().AddItem(other.GetComponent<PickUp>().item))
+                {
+                    Destroy(other.GetComponent<PickUp>().gameObject);
+                }
+                else
+                {
+                    Debug.Log("Inventory is full!");
+                }
+            }
         }
         
     }

@@ -88,6 +88,8 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
 
     [HideInInspector]
     public bool consumed;
+    [HideInInspector]
+    public bool dropped;
 
     [HideInInspector]
     public bool equipped = false;
@@ -140,6 +142,16 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
         {
             owner.GetComponent<Entity>().stats.AddStats(stats);
         }
+    }
+
+
+    public void Drop(GameObject owner) // The function to be called when the item is equipped by the owner
+    {
+        Debug.Log("Dropped " + itemName);
+        GameObject prefab = GameObject.Find("Pickup");
+        GameObject pickup = (GameObject) Instantiate(prefab, owner.transform.position, Quaternion.identity);
+        pickup.GetComponent<PickUp>().SetItem(this);
+        dropped = true;
     }
 }
 

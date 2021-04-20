@@ -215,7 +215,6 @@ public class Inventory : MonoBehaviour
                 continue;
             }
             // Temporary fix
-            item.equipped = false;
             if(item.type == Item.ItemType.weapon)
             {
                 weaponItems[lastWeaponIndex] = item;
@@ -422,6 +421,14 @@ public class Inventory : MonoBehaviour
     private Item UnequipSlot(ItemSlot slot)
     {
         slot.item.Unequip(this.gameObject);
+        foreach(Item i in items)
+        {
+            if(i == slot.item)
+            {
+                i.equipped = false;
+            }
+        }
+
         slot.item = null;
 
         if(slot.frame != null)
@@ -445,6 +452,14 @@ public class Inventory : MonoBehaviour
         {
             slot.frame.enabled = true;
             slot.frame.sprite = slot.item.icon;
+        }
+
+        foreach(Item i in items)
+        {
+            if(i == slot.item)
+            {
+                i.equipped = true;
+            }
         }
         
         slot.sprite.sprite = slot.item.icon;
@@ -481,7 +496,25 @@ public class Inventory : MonoBehaviour
 
     public void DropHighlightedItem()
     {
-        UpdateStats();
+        if(highlighted.droppable)
+        {
+            highlighted.Drop(this.gameObject);
+        }
+        if(highlighted.dropped)
+        {
+            for(int i = 0; i < items.Length; i++) 
+            {
+                if(items[i] == highlighted)
+                {
+                    items[i] = null;
+                    ReloadItemCategories();
+                    ReloadItemSlots(allItems[itemTypes[index]]);
+                    ShowItemDescription(null);
+                }
+            }
+            drop.interactable = false;
+        }
+        //UpdateStats();
     }
 
     private void UpdateStatBar(string name, Transform statsBar, Player player, int val, int maxVal)
@@ -510,12 +543,31 @@ public class Inventory : MonoBehaviour
         UpdateStatBar("FTH", statsBar, player, player.stats.FTH, Stats.MAX_STAT);
     }
 
+    public bool AddItem(Item item)
+    {
+        item.dropped = false;
+        for(int i = 0; i < items.Length; i++) 
+        {
+            if(items[i] == null)
+            {
+                    items[i] = item;
+                    return true;
+            }
+        }
+        return false;
+    }
+
+
+
     // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.I) && !inventoryUI.activeSelf)
         {
             inventoryUI.SetActive(true);
+            ReloadItemCategories();
+            ReloadItemSlots(allItems[itemTypes[index]]);
+            ShowItemDescription(null);
             UpdateStats();
         }
         else if(Input.GetKeyDown(KeyCode.I))
