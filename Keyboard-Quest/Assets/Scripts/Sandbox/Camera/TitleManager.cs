@@ -58,7 +58,7 @@ public class TitleManager : MonoBehaviour // This script is typically attached t
         }
     }
  
-    public IEnumerator FadeTextToZeroAlpha(float t, Text text)
+    public IEnumerator FadeTextToZeroAlpha(float t, Text text) // Fade Text to nothing
     {
         text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a);
         while (text.color.a > 0.0f)

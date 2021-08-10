@@ -40,7 +40,7 @@ public class ItemEditor : Editor
             item.buff = (Item.Buff)EditorGUILayout.EnumPopup("Buff", item.buff);
         }
 
-        if(item.type == Item.ItemType.armor)
+        if(item.type == Item.ItemType.armor) // Show the different armor types an Armor Item can have
         {
             item.armorType = (Item.ArmorType)EditorGUILayout.EnumPopup("Armor Type", item.armorType);
         }

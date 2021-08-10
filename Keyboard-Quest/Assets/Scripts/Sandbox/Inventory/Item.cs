@@ -117,7 +117,7 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
     public void Equip(GameObject owner) // The function to be called when the item is equipped by the owner
     {
         Debug.Log("Equipped " + itemName);
-        equipped = true;
+        this.equipped = true;
         if(effect == Effect.changeStats)
         {
             owner.GetComponent<Entity>().stats.AddStats(stats);
@@ -127,7 +127,7 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
     public void Unequip(GameObject owner)
     {
         Debug.Log("Unequipped " + itemName);
-        equipped = false;
+        this.equipped = false;
         if(effect == Effect.changeStats)
         {
             owner.GetComponent<Entity>().stats.RemoveStats(stats);
@@ -137,7 +137,7 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
     public void Use(GameObject owner) // The function to be called when the item is equipped by the owner
     {
         Debug.Log("Used " + itemName);
-        consumed = true;
+        this.consumed = true;
         if(effect == Effect.changeStats)
         {
             owner.GetComponent<Entity>().stats.AddStats(stats);
@@ -151,7 +151,7 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
         GameObject prefab = GameObject.Find("Pickup");
         GameObject pickup = (GameObject) Instantiate(prefab, owner.transform.position, Quaternion.identity);
         pickup.GetComponent<PickUp>().SetItem(this);
-        dropped = true;
+        this.dropped = true;
     }
 }
 

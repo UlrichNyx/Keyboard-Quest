@@ -256,6 +256,11 @@ public class Inventory : MonoBehaviour
             }
             else
             {
+                if(itemSlots[counter].img == null)
+                {
+                    //Debug.Log("Yep, item image " + counter + " is null");
+                    itemSlots[counter].img = itemSlots[counter].GetComponent<Image>();
+                }
                 itemSlots[counter].img.color = new Color32(0,0,0,255);
                 itemSlots[counter].img.sprite = null;
                 itemSlots[counter].item = null;
@@ -551,6 +556,7 @@ public class Inventory : MonoBehaviour
             if(items[i] == null)
             {
                     items[i] = item;
+                    ReloadItemSlots(allItems[itemTypes[index]]);
                     return true;
             }
         }
@@ -566,9 +572,9 @@ public class Inventory : MonoBehaviour
         {
             inventoryUI.SetActive(true);
             ReloadItemCategories();
-            ReloadItemSlots(allItems[itemTypes[index]]);
             ShowItemDescription(null);
             UpdateStats();
+            ReloadItemSlots(allItems[itemTypes[index]]);
         }
         else if(Input.GetKeyDown(KeyCode.I))
         {
