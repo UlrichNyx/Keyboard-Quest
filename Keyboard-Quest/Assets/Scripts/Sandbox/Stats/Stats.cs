@@ -29,6 +29,8 @@ public class Stats
 
     private Stats tempStatChange;
 
+    private Dictionary<string, int> list;
+
     public static int MAX_STAT = 100;
     public static int MIN_STAT = 0;
 
@@ -41,6 +43,14 @@ public class Stats
         this.WIT = wit;
         this.LCK = luck;
         this.FTH = faith;
+
+        list = new Dictionary<string, int>();
+        list.Add("RES", resilience);
+        list.Add("STR", strength);
+        list.Add("DEX", dexterity);
+        list.Add("WIT", wit);
+        list.Add("LCK", luck);
+        list.Add("FTH", faith);
     }
 
     // Constructor used for setting Stats according to player class, level and god faith (Not yet fully implemented)

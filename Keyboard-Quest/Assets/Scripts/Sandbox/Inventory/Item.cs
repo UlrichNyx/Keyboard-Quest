@@ -91,7 +91,7 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
     [HideInInspector]
     public bool dropped;
 
-    [HideInInspector]
+    //[HideInInspector]
     public bool equipped = false;
     
     public ItemType type; // What type will the Item be? 
@@ -111,9 +111,7 @@ public class Item : ScriptableObject // Allows this to be considered a scriptabl
     public DamageType damageType; // If changeDamageType is chosen
     [HideInInspector]
     public Buff buff; // If giveBuff is chosen
-
     
-
     public void Equip(GameObject owner) // The function to be called when the item is equipped by the owner
     {
         Debug.Log("Equipped " + itemName);

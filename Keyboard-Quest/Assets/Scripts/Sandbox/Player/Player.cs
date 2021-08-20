@@ -27,6 +27,14 @@ public class Player : Entity
     //Initialize all variables on Start
     void Start()
     {
+        Item[] items = this.GetComponent<Inventory>().items;
+        foreach(Item i in items)
+        {
+            if(i != null && i.equipped)
+            {
+                i.equipped = false;
+            }
+        }
         currentState = PlayerState.idle; // Let the default state be idle
     }
 }

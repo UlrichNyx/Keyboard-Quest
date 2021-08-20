@@ -19,16 +19,19 @@ MonoBehaviour:
   equippable: 1
   usable: 0
   droppable: 0
+  consumed: 0
+  dropped: 0
   equipped: 0
   type: 0
   effect: 0
+  armorType: 0
   exp: 0
   stats:
-    resilience: 0
-    strength: 0
-    dexterity: 0
-    wit: 0
-    luck: 0
-    faith: 10
+    RES: 0
+    STR: 0
+    DEX: 0
+    WIT: 0
+    LCK: 0
+    FTH: 0
   damageType: 0
   buff: 0

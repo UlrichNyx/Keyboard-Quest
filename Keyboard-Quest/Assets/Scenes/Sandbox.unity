@@ -15065,7 +15065,7 @@ MonoBehaviour:
   maxEXP: 1000
   EXP: 327
   stats:
-    RES: 18
+    RES: 100
     STR: 36
     DEX: 54
     WIT: 34
