@@ -27,6 +27,7 @@ public class Player : Entity
     //Initialize all variables on Start
     void Start()
     {
+        stats.Initialize();
         Item[] items = this.GetComponent<Inventory>().items;
         foreach(Item i in items)
         {

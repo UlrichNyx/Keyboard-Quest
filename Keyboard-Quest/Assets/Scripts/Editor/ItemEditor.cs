@@ -44,6 +44,11 @@ public class ItemEditor : Editor
         {
             item.armorType = (Item.ArmorType)EditorGUILayout.EnumPopup("Armor Type", item.armorType);
         }
+        if (GUILayout.Button("Save"))
+        {        
+            AssetDatabase.SaveAssets();
+            Debug.Log("Saved item in assets!");
+        }
     }
 
 }

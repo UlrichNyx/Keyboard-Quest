@@ -14,8 +14,10 @@ public class PickUp : MonoBehaviour
 
     public void SetItem(Item item)
     {
+        Debug.Log(item);
         this.item = item;
-        sprite.sprite = item.icon;
+        Debug.Log(item.icon);
+        //sprite.sprite = item.icon;
     }
 
 }

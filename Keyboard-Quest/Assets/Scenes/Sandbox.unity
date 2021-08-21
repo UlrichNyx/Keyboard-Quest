@@ -15065,12 +15065,18 @@ MonoBehaviour:
   maxEXP: 1000
   EXP: 327
   stats:
-    RES: 100
+    RES: 95
     STR: 36
     DEX: 54
     WIT: 34
     LCK: 53
     FTH: 98
+    bRES: 95
+    bSTR: 0
+    bDEX: 0
+    bWIT: 0
+    bLCK: 0
+    bFTH: 0
   currentState: 0
   playerClass:
     playerClass: 0
@@ -26065,9 +26071,65 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217480, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217480, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217480, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7616733584475217481, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
       propertyPath: m_Name
       value: Pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217485, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ed5092c0c11c411c9205918f46fe78b, type: 2}
+    - target: {fileID: 7616733584475217486, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217486, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -832939893
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217486, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217486, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217486, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217486, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217486, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -933708202724517508, guid: c7f7703259ce5445680862eaa2bb7231, type: 3}
+    - target: {fileID: 7616733584475217486, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_Size.x
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217486, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_Size.y
+      value: 0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616733584475217486, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7616733584475217487, guid: ad9b1ca0e50c341f1a0af828d67b3d4a, type: 3}
       propertyPath: m_Size.x

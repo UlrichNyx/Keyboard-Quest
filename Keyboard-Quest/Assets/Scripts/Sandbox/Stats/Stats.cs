@@ -12,6 +12,7 @@ using UnityEngine;
 [System.Serializable]
 public class Stats
 {
+    //BASE STATS
     // There are 6 stats in total. 
     // They have been left as public so as to spare the set/get functions
     [Range(0, 100)]
@@ -27,30 +28,59 @@ public class Stats
     [Range(0, 100)]
     public int FTH; // Magic Damage
 
-    private Stats tempStatChange;
-
+    //AMPLIFICATION STATS
     private Dictionary<string, int> list;
+
+    //TRUE STATS
+    [HideInInspector]
+    public int bRES; // MAX HP
+    [HideInInspector]
+    public int bSTR; // Affects damage caused by heavy weapons
+    [HideInInspector]
+    public int bDEX; // Affects damage caused by light weapons
+    [HideInInspector]
+    public int bWIT; // Armor and Magic Resistance
+    [HideInInspector]
+    public int bLCK; // Critical Strike chance
+    [HideInInspector]
+    public int bFTH; // Magic Damage
+
 
     public static int MAX_STAT = 100;
     public static int MIN_STAT = 0;
+    public void Initialize() 
+    {
+        list = new Dictionary<string, int>();
+        list.Add("RES", 0);
+        list.Add("STR", 0);
+        list.Add("DEX", 0);
+        list.Add("WIT", 0);
+        list.Add("LCK", 0);
+        list.Add("FTH", 0);
+        this.RES = this.bRES;
+        this.STR = this.bSTR;
+        this.DEX = this.bDEX;
+        this.WIT = this.bWIT;
+        this.LCK = this.bLCK;
+        this.FTH = this.bFTH;
+    }
 
     // Constructor used for setting Stats explicitly
     public Stats(int resilience, int strength, int dexterity, int wit, int luck, int faith)
     {
+        this.bRES = resilience;
+        this.bSTR = strength;
+        this.bDEX = dexterity;
+        this.bWIT = wit;
+        this.bLCK = luck;
+        this.bFTH = faith;
+
         this.RES = resilience;
         this.STR = strength;
         this.DEX = dexterity;
         this.WIT = wit;
         this.LCK = luck;
         this.FTH = faith;
-
-        list = new Dictionary<string, int>();
-        list.Add("RES", resilience);
-        list.Add("STR", strength);
-        list.Add("DEX", dexterity);
-        list.Add("WIT", wit);
-        list.Add("LCK", luck);
-        list.Add("FTH", faith);
     }
 
     // Constructor used for setting Stats according to player class, level and god faith (Not yet fully implemented)
@@ -76,32 +106,73 @@ public class Stats
         // Gambler: Proficiency in luck and faith
         // Alchemist: Proficiency in dexterity and wit
     }
+    
+    public void LevelUp()
+    {
+        //TODO
+    }
 
     public void AddStats(Stats stats)
     {
-        this.RES += stats.RES;
-        this.STR += stats.STR;
-        this.DEX += stats.DEX;
-        this.WIT += stats.WIT;
-        this.LCK += stats.LCK;
-        this.FTH += stats.FTH;
+        if(list == null)
+        {
+            list = new Dictionary<string, int>();
+            list.Add("RES", 0);
+            list.Add("STR", 0);
+            list.Add("DEX", 0);
+            list.Add("WIT", 0);
+            list.Add("LCK", 0);
+            list.Add("FTH", 0);
+            this.RES = this.bRES;
+            this.STR = this.bSTR;
+            this.DEX = this.bDEX;
+            this.WIT = this.bWIT;
+            this.LCK = this.bLCK;
+            this.FTH = this.bFTH;
+        }
+        list["RES"] += stats.RES;
+        list["STR"] += stats.STR;
+        list["DEX"] += stats.DEX;
+        list["WIT"] += stats.WIT;
+        list["LCK"] += stats.LCK;
+        list["FTH"] += stats.FTH;
 
         MaintainStats();
     }
     public void RemoveStats(Stats stats)
     {
-        this.RES -= stats.RES;
-        this.STR -= stats.STR;
-        this.DEX -= stats.DEX;
-        this.WIT -= stats.WIT;
-        this.LCK -= stats.LCK;
-        this.FTH -= stats.FTH;
+        if(list == null)
+        {
+            list = new Dictionary<string, int>();
+            list.Add("RES", 0);
+            list.Add("STR", 0);
+            list.Add("DEX", 0);
+            list.Add("WIT", 0);
+            list.Add("LCK", 0);
+            list.Add("FTH", 0);
+            this.RES = this.bRES;
+            this.STR = this.bSTR;
+            this.DEX = this.bDEX;
+            this.WIT = this.bWIT;
+            this.LCK = this.bLCK;
+            this.FTH = this.bFTH;
+        }
+        list["RES"] -= stats.RES;
+        list["STR"] -= stats.STR;
+        list["DEX"] -= stats.DEX;
+        list["WIT"] -= stats.WIT;
+        list["LCK"] -= stats.LCK;
+        list["FTH"] -= stats.FTH;
 
         MaintainStats();
     }
 
     private void MaintainStats()
     {
+        Debug.Log("The additional RES stat is currently " + list["RES"]);
+        this.RES = this.bRES + list["RES"];
+
+
         this.RES = Mathf.Min(this.RES, MAX_STAT);
         this.STR = Mathf.Min(this.STR, MAX_STAT);
         this.DEX = Mathf.Min(this.DEX, MAX_STAT);
