@@ -58,6 +58,7 @@ public class Inventory : MonoBehaviour
     // Player Display
     private ItemSlot mainHandSlot, offHandSlot, toolSlot, headSlot, shoulderSlot, chestSlot, waistSlot, legsSlot, feetSlot, ringSlot;
     private Text levelLabel;
+    private Text currencyLabel;
 
 
     // Start is called before the first frame update
@@ -157,6 +158,7 @@ public class Inventory : MonoBehaviour
 
         // Level Display
         levelLabel = inventoryUI.transform.Find("PlayerPreview").transform.Find("Stats").transform.Find("LVL").GetComponent<Text>();
+        currencyLabel = inventoryUI.transform.Find("ItemsDisplay").transform.Find("Currency").transform.Find("Text").GetComponent<Text>();
         UpdateStats(); 
 
 
@@ -537,6 +539,7 @@ public class Inventory : MonoBehaviour
         Transform statsBar = inventoryUI.transform.Find("PlayerPreview").transform.Find("Stats");
 
         levelLabel.text = "Lv. " + player.level + "/\n" + player.maxLevel;
+        currencyLabel.text = player.currency + "g";
         UpdateStatBar("HP", statsBar, player, player.HP, player.maxHP);
         UpdateStatBar("MP", statsBar, player, player.MP, player.maxMP);
         UpdateStatBar("EXP", statsBar, player, player.EXP, player.maxEXP);

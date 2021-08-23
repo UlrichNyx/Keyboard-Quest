@@ -7,7 +7,7 @@ public class PickUp : MonoBehaviour
     public Item item;
     private SpriteRenderer sprite;
 
-    void Start()
+    public void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
     }
@@ -17,7 +17,7 @@ public class PickUp : MonoBehaviour
         Debug.Log(item);
         this.item = item;
         Debug.Log(item.icon);
-        //sprite.sprite = item.icon;
+        sprite.sprite = item.icon;
     }
 
 }

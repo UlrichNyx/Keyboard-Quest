@@ -18,7 +18,7 @@ MonoBehaviour:
     Who knows what kind of power lies within their books...
   equippable: 1
   usable: 0
-  droppable: 0
+  droppable: 1
   consumed: 0
   dropped: 0
   equipped: 0
@@ -33,5 +33,11 @@ MonoBehaviour:
     WIT: 0
     LCK: 0
     FTH: 0
+    bRES: 0
+    bSTR: 0
+    bDEX: 0
+    bWIT: 0
+    bLCK: 0
+    bFTH: 0
   damageType: 0
   buff: 0
