@@ -14,6 +14,7 @@ using UnityEngine.UI; // Necessary import for working with UI
 public class DialogueManager : MonoBehaviour // This script should be attached to a DialogueManager object
 {
     private Queue<string> sentences; // Current dialogue sentences
+    private bool isQuestion;
     public Text dialogueText; // The text that displays on the UI
     public Text nameText; // The name of the NPC that displays on the UI
     public Animator animator; // The animator of the dialogue box --> for bringing it into and out from the screen
@@ -34,12 +35,17 @@ public class DialogueManager : MonoBehaviour // This script should be attached t
             sentences.Enqueue(sentence); // Enqueue every sentence from the new dialogue object
         }
         nameText.text = dialogue.name; // Change the name of who is speaking
+        isQuestion = dialogue.isQuestion;
         DisplayNextSentence(); // Display the first sentence
     }
 
     public void DisplayNextSentence()
     {
-        if(sentences.Count == 0) // If there are no more sentences
+        if(sentences.Count == 1 && isQuestion) // If there are no more sentences
+        { 
+            Debug.Log("Display question options here");
+        }
+        else if(sentences.Count == 0) // If there are no more sentences
         { 
             EndDialogue(); // Stop the dialogue
             return;
