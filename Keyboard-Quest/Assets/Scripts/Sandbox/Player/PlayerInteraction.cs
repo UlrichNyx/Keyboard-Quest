@@ -13,6 +13,7 @@ public class PlayerInteraction : MonoBehaviour
     private Player player; // The reference to the player
     private BoxCollider2D hitbox; // The reference to the invisible hitbox that is in front of the player
     private DialogueTrigger trigger; // The reference to the trigger that is to be retrieved
+    private QuestionTrigger qTrigger;
     private GameObject npc; // The reference to the NPC that was interacted
 
     // Start is called before the first frame update
@@ -67,7 +68,11 @@ public class PlayerInteraction : MonoBehaviour
             if(other.CompareTag("Interactable")) // If the tag of the object was "Interactable"
             {
                 player.currentState = PlayerState.interact; // Set the player into the interact state
-                trigger = other.GetComponent<DialogueTrigger>(); 
+                trigger = other.GetComponent<DialogueTrigger>();
+                if(trigger.dialogue.isQuestion)
+                {
+                    qTrigger = other.GetComponent<QuestionTrigger>();
+                } 
                 trigger.TriggerDialogue(); // Trigger the dialogue
             }
             else if(other.CompareTag("NPC")) // If the tag of the object was "NPC"
@@ -77,6 +82,11 @@ public class PlayerInteraction : MonoBehaviour
                 npc = other.gameObject; // Set the reference to the NPC
                 npc.GetComponent<NPCBehavior>().TurnTowards(new Vector2(transform.position.x, transform.position.y)); // Make the NPC turn towards the player
                 trigger = other.GetComponent<DialogueTrigger>();
+                if(trigger.dialogue.isQuestion)
+                {
+                    qTrigger = other.GetComponent<QuestionTrigger>();
+                    qTrigger.StartQuestion();
+                } 
                 trigger.TriggerDialogue(); // Trigger the dialogue
             }
             else if(other.CompareTag("Pickup"))

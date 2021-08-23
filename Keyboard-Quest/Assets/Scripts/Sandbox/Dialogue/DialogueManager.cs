@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour // This script should be attached t
 {
     private Queue<string> sentences; // Current dialogue sentences
     private bool isQuestion;
+    private QuestionTrigger qTrigger;
     public Text dialogueText; // The text that displays on the UI
     public Text nameText; // The name of the NPC that displays on the UI
     public Animator animator; // The animator of the dialogue box --> for bringing it into and out from the screen
@@ -43,11 +44,12 @@ public class DialogueManager : MonoBehaviour // This script should be attached t
     {
         if(sentences.Count == 1 && isQuestion) // If there are no more sentences
         { 
-            Debug.Log("Display question options here");
+            FindObjectOfType<QuestionManager>().ShowQuestionBox();
         }
         else if(sentences.Count == 0) // If there are no more sentences
         { 
             EndDialogue(); // Stop the dialogue
+            FindObjectOfType<QuestionManager>().HideQuestionBox();
             return;
         }
         
