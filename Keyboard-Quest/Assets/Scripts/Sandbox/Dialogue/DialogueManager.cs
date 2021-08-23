@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour // This script should be attached t
 {
     private Queue<string> sentences; // Current dialogue sentences
     private bool isQuestion;
+    private QuestionManager manager;
     private QuestionTrigger qTrigger;
     public Text dialogueText; // The text that displays on the UI
     public Text nameText; // The name of the NPC that displays on the UI
@@ -25,6 +26,7 @@ public class DialogueManager : MonoBehaviour // This script should be attached t
     void Start()
     {
         sentences = new Queue<string>(); // A queue is used due to its FIFO
+        manager = FindObjectOfType<QuestionManager>();
     }
 
     public void StartDialogue(Dialogue dialogue)
@@ -44,12 +46,12 @@ public class DialogueManager : MonoBehaviour // This script should be attached t
     {
         if(sentences.Count == 1 && isQuestion) // If there are no more sentences
         { 
-            FindObjectOfType<QuestionManager>().ShowQuestionBox();
+            manager.ShowQuestionBox();
         }
         else if(sentences.Count == 0) // If there are no more sentences
         { 
             EndDialogue(); // Stop the dialogue
-            FindObjectOfType<QuestionManager>().HideQuestionBox();
+            manager.HideQuestionBox();
             return;
         }
         

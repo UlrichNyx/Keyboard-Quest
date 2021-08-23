@@ -1,16 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
+
+
+[System.Serializable]
 public class Shop : MonoBehaviour
 {
+    public GameObject shopUI;
+    public ItemListing[] itemsOnSale;
     public void ShowAffirmative()
     {
-        Debug.Log("YES");
+        shopUI.SetActive(true);
     }
 
     public void ShowNegative()
     {
-        Debug.Log("NO");
+        shopUI.SetActive(false);
     }
 }
