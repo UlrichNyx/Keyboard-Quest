@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         change.y = Input.GetAxisRaw("Vertical");
         
         // If there was movement declared through wasd or the arrow keys and the player is not in a dialogue
-        if(change != Vector3.zero && player.currentState != PlayerState.interact)
+        if(change != Vector3.zero && player.currentState != PlayerState.interact && player.currentState != PlayerState.shopping)
         {
             // Move the character and change the animations
             MoveCharacter();
@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
         else // if the player is not moving, set both state and animation to idle
         {
             animator.SetBool("Moving", false);
-            if(player.currentState != PlayerState.interact)
+            if(player.currentState != PlayerState.interact && player.currentState != PlayerState.shopping)
             {
                 player.currentState = PlayerState.idle;
             }

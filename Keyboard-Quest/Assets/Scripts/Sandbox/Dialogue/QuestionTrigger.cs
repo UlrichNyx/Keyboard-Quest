@@ -1,23 +1,31 @@
-﻿using System.Collections;
+﻿/* 
+# Author: Filippos Kontogiannis
+# Description: The script for the component to be used on NPCs with questions
+# Editors: ...
+*/
+
+/* TODOS:
+
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 public class QuestionTrigger : MonoBehaviour
 {
-    public Question question;
+    public Question question; // The question the NPC asks
 
-    public void StartQuestion()
+    public Dialogue reply;
+
+    public void StartQuestion() // To be called when the NPC is talked to
     {
         FindObjectOfType<QuestionManager>().StartQuestion(question);
     }
 
-    public void MakeChoiceA()
+    public void StartReply()
     {
-        question.functionA.Invoke();
-    }
-    public void MakeChoiceB()
-    {
-        question.functionB.Invoke();
+        FindObjectOfType<DialogueManager>().StartDialogue(reply);
     }
 }

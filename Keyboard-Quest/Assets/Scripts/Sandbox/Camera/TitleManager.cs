@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; // Necessary import for working with UI
 
-public class TitleManager : MonoBehaviour // This script is typically attached to a TitlePlace object in the UI Canvas
+public class TitleManager : MonoBehaviour // This script is typically attached to a AreaTitle object in the UI Canvas
 {
     private GameObject player; // The reference to the player
     private Text text; // The reference to the text gameobject in the UI

@@ -44,10 +44,10 @@ public class ItemEditor : Editor
         {
             item.armorType = (Item.ArmorType)EditorGUILayout.EnumPopup("Armor Type", item.armorType);
         }
-        if (GUILayout.Button("Save"))
+        if (GUILayout.Button("Save")) // Sometimes the asset is not properly saved so there needs to be an explicit save button
         {        
             AssetDatabase.SaveAssets();
-            Debug.Log("Saved item in assets!");
+            Debug.Log("Saved " + item.itemName + " in assets!");
         }
     }
 

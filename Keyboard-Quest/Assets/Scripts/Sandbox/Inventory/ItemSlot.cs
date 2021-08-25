@@ -16,9 +16,9 @@ public class ItemSlot : MonoBehaviour
     [HideInInspector]
     public Image img; // The img that the gameobject should display
     [HideInInspector]
-    public SpriteRenderer sprite;
+    public SpriteRenderer sprite; // The main img  
     [HideInInspector]
-    public Image frame;
+    public Image frame; // The in game frame of main/off/tool hand items
 
     void Start() 
     {

@@ -16,7 +16,7 @@ public class Dialogue // Doesn't inherit from MonoBehavior since its just a temp
     public string name; // The name of the NPC/Object that is talking
     [TextArea(3,10)] // The input for the dialogue in the editor
     public string[] sentences; // The actual dialogue
-    public bool isQuestion;
+    public bool isQuestion; // Whether or not the dialogue ends with a choice the player must make
 }
 
 /* TODOS:

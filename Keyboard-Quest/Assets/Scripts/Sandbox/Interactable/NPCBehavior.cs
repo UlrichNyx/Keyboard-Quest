@@ -82,11 +82,11 @@ public class NPCBehavior : MonoBehaviour
         }
         if(PlayerPos.y > transform.position.y + sprite.size.y) // Use the size of the NPC's sprite to determine whether or not to look up or left/right
         {
-            inst.command = Instruction.Command.idleUp; // If the player is below, turn downwards
+            inst.command = Instruction.Command.idleUp; // If the player is above, turn upwards
         }
         else if(PlayerPos.y < transform.position.y - sprite.size.y) 
         {
-            inst.command = Instruction.Command.idleDown; // If the player is above, turn upwards
+            inst.command = Instruction.Command.idleDown; // If the player is below, turn downwards
         }
 
         ExecuteInstruction(inst); // Execute the instruction (look towards a certain way)

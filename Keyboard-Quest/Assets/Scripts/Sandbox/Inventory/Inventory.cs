@@ -60,84 +60,96 @@ public class Inventory : MonoBehaviour
     private Text levelLabel;
     private Text currencyLabel;
 
-
-    // Start is called before the first frame update
     void Start()
     {
+        // Get the references to the Button gameobjects
         equip = inventoryUI.transform.Find("ItemsDisplay").transform.Find("Equip").GetComponent<Button>();
         unequip = inventoryUI.transform.Find("ItemsDisplay").transform.Find("Unequip").GetComponent<Button>();
         drop = inventoryUI.transform.Find("ItemsDisplay").transform.Find("Drop").GetComponent<Button>();
         use = inventoryUI.transform.Find("ItemsDisplay").transform.Find("Use").GetComponent<Button>();
 
+        // Turn them all off
         equip.interactable = false;
         unequip.interactable= false;
         use.interactable = false;
         drop.interactable = false;
 
-
+        // The arrays of each item type
         weaponItems = new Item[50];
         armorItems = new Item[50];
         consumables = new Item[50];
         keyItems = new Item[50];
         toolItems = new Item[50];
-
+        
+        // The index of the last item of each type (so that when new items are added, they don't overwrite previous ones)
         lastWeaponIndex = 0;
         lastArmorIndex = 0;
         lastConsumableIndex = 0;
         lastKeyIndex = 0;
         lastToolIndex = 0;
 
+        // The dictionary of all items
         allItems = new Dictionary<string, Item[]>();
+
+        // The dictionary of all indices related to the item type
         allIndices = new Dictionary<string, int>();
         
-        index = 0;
-        itemTypes = new string[5]{"Weapons", "Armor", "Consumables", "Key Items", "Tools"};
+        index = 0; // No idea lmao
+        itemTypes = new string[5]{"Weapons", "Armor", "Consumables", "Key Items", "Tools"}; // The item types
 
+        // Relate the item types with the arrays of items
         allItems.Add(itemTypes[0], weaponItems);
         allItems.Add(itemTypes[1], armorItems);
         allItems.Add(itemTypes[2], consumables);
         allItems.Add(itemTypes[3], keyItems);
         allItems.Add(itemTypes[4], toolItems);
 
+        // Relate the indices with the item types
         allIndices.Add(itemTypes[0], lastWeaponIndex);
         allIndices.Add(itemTypes[1], lastArmorIndex);
         allIndices.Add(itemTypes[2], lastConsumableIndex);
         allIndices.Add(itemTypes[3], lastKeyIndex);
         allIndices.Add(itemTypes[4], lastToolIndex);
 
+        // Set the frames (In game UI) of these 3 slots off
         mainHandFrame.enabled = false;
         offHandFrame.enabled = false;
         toolFrame.enabled = false;
 
-        ReloadItemCategories();
+        ReloadItemCategories(); // Load for the first time the items
         
-        int counter = 0;
+        int counter = 0; // Start a counter for iterating through the item slots array 
         
-        itemSlots = new ItemSlot[50];
+        itemSlots = new ItemSlot[50]; // Initialize the item slots array
+
+        // For each row
         foreach(Transform child in inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemsGrid"))
         {
+            // For each specific slot
             foreach(Transform c in child.transform)
             {
-                itemSlots[counter] = c.GetComponent<ItemSlot>();
-                if(weaponItems[counter] != null)
+                itemSlots[counter] = c.GetComponent<ItemSlot>(); // Get the ItemSlot component of the gameobject
+                if(weaponItems[counter] != null) // If the current index of weapon Items is not null
                 {
+                    // Set the current Item Slot gameobject to this specific itemSlot
                     itemSlots[counter].img.color = new Color32(255,255,255,255);
                     itemSlots[counter].img.sprite = weaponItems[counter].icon;
                     itemSlots[counter].item = weaponItems[counter];
                 }
-                counter += 1;
+                counter += 1; //Increment
             }
         }
 
+        // The GUI gameobjects for item descriptions
         itemIconDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemIcon").GetComponent<Image>();
         itemNameDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemNameText").GetComponent<Text>();
         itemDescriptionDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemDescriptionText").GetComponent<Text>();
         itemTypeDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemTypeText").GetComponent<Text>();
         itemTypeDisplay.text = itemTypes[index];
-        inventoryUI.SetActive(false);
+        inventoryUI.SetActive(false); // Set to be initially inactive 
 
 
-        // Player preview
+        // Player preview // =======================
 
 
         // Left Column
@@ -161,7 +173,7 @@ public class Inventory : MonoBehaviour
         currencyLabel = inventoryUI.transform.Find("ItemsDisplay").transform.Find("Currency").transform.Find("Text").GetComponent<Text>();
         UpdateStats(); 
 
-
+        // Setting up the sprites of each slot
         headSlot.sprite = this.gameObject.transform.Find("Head").GetComponent<SpriteRenderer>();
         headSlot.sprite.enabled = false;
         mainHandSlot.sprite = this.gameObject.transform.Find("MainHand").GetComponent<SpriteRenderer>();
@@ -186,6 +198,7 @@ public class Inventory : MonoBehaviour
         ringSlot.sprite = this.gameObject.transform.Find("Ring").GetComponent<SpriteRenderer>();
         ringSlot.sprite.enabled = false;
 
+        // Relating item types with slots
         armorSlots = new Dictionary<Item.ArmorType, ItemSlot>();
         armorSlots.Add(Item.ArmorType.head, headSlot);
         armorSlots.Add(Item.ArmorType.shoulder, shoulderSlot);
@@ -198,6 +211,7 @@ public class Inventory : MonoBehaviour
 
     void ReloadItemCategories()
     {
+        //Reset all indices
         lastWeaponIndex = 0;
         lastArmorIndex = 0;
         lastConsumableIndex = 0;
@@ -210,6 +224,7 @@ public class Inventory : MonoBehaviour
         Array.Clear(keyItems, 0, weaponItems.Length);
         Array.Clear(toolItems, 0, weaponItems.Length);
 
+        // Fill up each array according to item type;
         foreach (Item item in items)
         { 
             if(item == null)
@@ -248,7 +263,7 @@ public class Inventory : MonoBehaviour
     void ReloadItemSlots(Item[] currentItems)
     {
         int counter = 0;
-        foreach(Item item in currentItems)
+        foreach(Item item in currentItems) // For each item in the current item type array
         {
             if(item != null)
             {
@@ -260,7 +275,6 @@ public class Inventory : MonoBehaviour
             {
                 if(itemSlots[counter].img == null)
                 {
-                    //Debug.Log("Yep, item image " + counter + " is null");
                     itemSlots[counter].img = itemSlots[counter].GetComponent<Image>();
                 }
                 itemSlots[counter].img.color = new Color32(0,0,0,255);
@@ -271,7 +285,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void DisplayNextItemType()
+    public void DisplayNextItemType() // When the > button is pressed, show the next Item Type
     {
         index += 1;
         if(index > itemTypes.Length - 1)
@@ -282,7 +296,7 @@ public class Inventory : MonoBehaviour
         ReloadItemSlots(allItems[itemTypes[index]]);
     }
 
-    public void DisplayPreviousItemType()
+    public void DisplayPreviousItemType() // When the < button is pressed, show the previous Item Type
     {
         index -= 1;
         if(index < 0)
@@ -293,7 +307,7 @@ public class Inventory : MonoBehaviour
         ReloadItemSlots(allItems[itemTypes[index]]);
     }
 
-    public void ShowItemDescription(Item item)
+    public void ShowItemDescription(Item item) // Show the item description of the highlighted item
     {
         equip.interactable = false;
         unequip.interactable = false;

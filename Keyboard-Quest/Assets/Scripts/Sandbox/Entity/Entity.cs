@@ -28,7 +28,7 @@ public class Entity : MonoBehaviour
     [Range(0,1000)]
     public int EXP; // The experience of the entity that is needed to reach the next level (MAX 1000)
     [Range(0,9999)]
-    public int currency;
+    public int currency; // The amount of gold that the player has on them
     public Stats stats; // The combat related stats of the entity (As seen in the Stats class)
 }
 

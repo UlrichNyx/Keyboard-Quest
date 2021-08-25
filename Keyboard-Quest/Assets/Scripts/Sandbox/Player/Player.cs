@@ -14,7 +14,8 @@ public enum PlayerState
 {
     idle,
     walk,
-    interact
+    interact,
+    shopping
 }
 
 // This class inherits from Entity and extends it by adding the PlayerClass and the GodFaith
