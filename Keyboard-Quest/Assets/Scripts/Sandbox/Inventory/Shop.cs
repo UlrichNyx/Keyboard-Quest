@@ -59,6 +59,8 @@ public class Shop : MonoBehaviour
 
     public void ShowBuyingWindow() // If the choice to buy was picked
     {
+        FindObjectOfType<DialogueManager>().EndDialogue();
+        FindObjectOfType<Player>().GetComponent<Player>().currentState = PlayerState.shopping;
         // The shop's list of items gameobject
         Transform list = shopUI.transform.Find("Scroll View").transform.Find("Viewport").transform.Find("Content");
 
@@ -85,6 +87,8 @@ public class Shop : MonoBehaviour
     public void ShowSellingWindow() // If the choice to sell was picked
     {
         // TODO
+        FindObjectOfType<DialogueManager>().EndDialogue();
+        FindObjectOfType<Player>().GetComponent<Player>().currentState = PlayerState.shopping;
         shopUI.SetActive(true); // Turn off the shop's UI
         shopUI.transform.Find("BuyButton").GetComponent<Button>().interactable = false;
         shopUI.transform.Find("SellButton").GetComponent<Button>().interactable = true;

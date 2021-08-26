@@ -72,6 +72,11 @@ public class PlayerInteraction : MonoBehaviour
                 if(trigger.dialogue.isQuestion)
                 {
                     qTrigger = other.GetComponent<QuestionTrigger>();
+                    if(trigger.dialogue.isQuestion)
+                    {
+                        qTrigger = other.GetComponent<QuestionTrigger>();
+                        qTrigger.StartQuestion();
+                    } 
                 } 
                 trigger.TriggerDialogue(); // Trigger the dialogue
             }

@@ -23,6 +23,13 @@ public class LevelLoader : MonoBehaviour
         }
     }
 
+    IEnumerator Sleep()
+    {
+        transition.SetTrigger("Start"); // Play the animation
+        yield return new WaitForSeconds(transitionTime);
+    }
+
+
     public void LoadNextLevel()
     {
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1)); // Load the next level in terms of indices

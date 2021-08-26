@@ -306,6 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f1fea03df0184e84a06ffcc35d815c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inNewArea: 0
 --- !u!1 &29090462
 GameObject:
   m_ObjectHideFlags: 0
@@ -25430,7 +25431,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -2757298984738394219, guid: 3a16ac773b04e4596987f42405b66a29, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

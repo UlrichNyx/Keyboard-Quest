@@ -30,16 +30,11 @@ public class QuestionManager : MonoBehaviour
     public void MakeChoiceA() // If the first choice is chosen
     {
         question.functionA.Invoke(); // Invoke the local function which is binded to the first option
-        FindObjectOfType<DialogueManager>().EndDialogue();
-        FindObjectOfType<Player>().GetComponent<Player>().currentState = PlayerState.shopping;
-        Debug.Log(FindObjectOfType<Player>().GetComponent<Player>().currentState);
         HideQuestionBox();
     }
     public void MakeChoiceB() // If the second choice is chosen
     {
         question.functionB.Invoke(); // Invoke the local function which is binded to the second option
-        FindObjectOfType<DialogueManager>().EndDialogue();
-        FindObjectOfType<Player>().GetComponent<Player>().currentState = PlayerState.shopping;
         HideQuestionBox();
     }
 
