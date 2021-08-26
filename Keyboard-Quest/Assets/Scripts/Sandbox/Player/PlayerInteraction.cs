@@ -102,7 +102,21 @@ public class PlayerInteraction : MonoBehaviour
                 }
             }
         }
+        if(other.CompareTag("AreaBox"))
+        {
+            Debug.Log("Interacted with AreaBox");
+            FindObjectOfType<TitleManager>().GetComponent<TitleManager>().inNewArea = true;
+        }
         
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if(other.CompareTag("AreaBox"))
+        {
+            Debug.Log("Left AreaBox");
+            FindObjectOfType<TitleManager>().GetComponent<TitleManager>().inNewArea = false;
+        }
     }
 
 }

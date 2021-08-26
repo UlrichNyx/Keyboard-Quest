@@ -14,6 +14,9 @@ public class TitleManager : MonoBehaviour // This script is typically attached t
     private GameObject player; // The reference to the player
     private Text text; // The reference to the text gameobject in the UI
     private float timer; // A local timer the determines the duration of the fade-in to fade-out
+    private string currentArea;
+    [HideInInspector]
+    public bool inNewArea;
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +34,12 @@ public class TitleManager : MonoBehaviour // This script is typically attached t
     // Update is called once per frame
     void Update()
     {
+        if(!inNewArea)
+        {
+            timer = -4f;
+        }
         // If the player has reached the desired position and the timer has not started or if the timer has started and the text is enabled 
-        if(player.transform.position.x < 0 && timer < 0 || timer < 0 && text.enabled)
+        if(inNewArea && timer < 0)
         {
             text.enabled = true;
             StartCoroutine(FadeTextToFullAlpha(10, text)); // Start fading in
