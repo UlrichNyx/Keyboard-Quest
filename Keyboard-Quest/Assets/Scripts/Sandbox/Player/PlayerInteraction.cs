@@ -106,12 +106,18 @@ public class PlayerInteraction : MonoBehaviour
                     Debug.Log("Inventory is full!");
                 }
             }
+            if(other.CompareTag("Door"))
+            {
+                Debug.Log("Interacted with Door");
+                FindObjectOfType<Door>().GetComponent<Door>().GoToDestination();
+            }
         }
         if(other.CompareTag("AreaBox"))
         {
             Debug.Log("Interacted with AreaBox");
             FindObjectOfType<TitleManager>().GetComponent<TitleManager>().inNewArea = true;
         }
+        
         
     }
 

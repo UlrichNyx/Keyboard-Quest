@@ -8,6 +8,7 @@ TagManager:
   - NPC
   - Pickup
   - AreaBox
+  - Door
   layers:
   - Default
   - TransparentFX
