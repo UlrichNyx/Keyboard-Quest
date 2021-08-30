@@ -12,7 +12,7 @@ using UnityEngine;
 public class LevelLoader : MonoBehaviour
 {
     public Animator transition; // The reference to the animator object of the screen-wide black box that covers the UI
-    public float transitionTime = 1f; // The amount of time the transition should take
+    public float transitionTime = 0.1f; // The amount of time the transition should take
 
     public static LevelLoader instance; // The instance of the AudioManager object
 
@@ -56,8 +56,10 @@ public class LevelLoader : MonoBehaviour
         transition.SetTrigger("Start"); // Play the animation
         yield return new WaitForSeconds(transitionTime); // Wait for transitionTime seconds
         SceneManager.LoadScene(name); // Load the actual scene
-        FindObjectOfType<Player>().transform.position = position;
+        yield return new WaitForSeconds(transitionTime);
         transition.SetTrigger("End");
+        FindObjectOfType<Player>().transform.position = position;
+        
         
     }
 

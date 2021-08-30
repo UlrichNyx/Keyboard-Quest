@@ -12,9 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Sandbox.unity
     guid: cb875ab5b8a4f4749809bca6abaf4de3
   - enabled: 1
-    path: Assets/Scenes/Anetheron's House 1.unity
+    path: Assets/Scenes/Anetheron's House.unity
     guid: a9973232b97664b5d9607408bb5cd4ff
   - enabled: 1
     path: Assets/Scenes/Town.unity
     guid: 2cec8b0a4a6184feab5e67c4ad135d67
+  - enabled: 1
+    path: Assets/Scenes/Skipper's House.unity
+    guid: 874cc30cbafb246a59eb9cf0964ac6d8
+  - enabled: 1
+    path: Assets/Scenes/Town Castle.unity
+    guid: a237fe49027834c2abb866200b06647d
   m_configObjects: {}

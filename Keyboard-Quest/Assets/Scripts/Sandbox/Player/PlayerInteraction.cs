@@ -109,7 +109,7 @@ public class PlayerInteraction : MonoBehaviour
             if(other.CompareTag("Door"))
             {
                 Debug.Log("Interacted with Door");
-                FindObjectOfType<Door>().GetComponent<Door>().GoToDestination();
+                other.GetComponent<Door>().GoToDestination();
             }
         }
         if(other.CompareTag("AreaBox"))
