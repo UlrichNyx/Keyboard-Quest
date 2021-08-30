@@ -1,25 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.Animations;
 
-public class Enemy : Entity
+[CreateAssetMenu(fileName = "New Enemy", menuName = "Enemy")]
+public class Enemy : ScriptableObject
 {
-    public Item[] drops;
-
-    // Start is called before the first frame update
-    void Start()
+    public string enemyName;
+    [Range(0,9999)]
+    public int goldDrop;
+    [Range(0,9999)]
+    public int expDrop;
+    public Item[] itemDrops;
+    public Sprite sprite;
+    public AnimatorController animator;
+    
+    public enum EnemyType
     {
-        //Determine what will drop
+        shooter,
+        slasher,
+        defender
     }
 
-    // Update is called once per frame
-    void Update()
+    public EnemyType type;
+
+    public bool isQuestTrigger;
+
+    public void Move()
     {
-        if(this.HP <= 0)
-        {
-            // Give Exp
-            // Drop items + currency
-            // Despawn
-        }
+
+    }
+
+    public void Attack()
+    {
+
     }
 }

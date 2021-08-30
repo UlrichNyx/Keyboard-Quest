@@ -16,6 +16,6 @@ MonoBehaviour:
   questDescription: 
   goldReward: 0
   itemRewards: []
-  requirement: 1
+  requirement: 0
   enemyToSlay: {fileID: 0}
   itemToObtain: {fileID: 0}

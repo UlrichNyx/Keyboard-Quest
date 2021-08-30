@@ -19,7 +19,7 @@ using UnityEngine.UI; // Necessary for working with UI
 
 */
 
-[CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Item")] // Allows this to be created through right clicking on the project folder
+[CreateAssetMenu(fileName = "New Item", menuName = "Item")] // Allows this to be created through right clicking on the project folder
 public class Item : ScriptableObject // Allows this to be considered a scriptable object
 {
     public enum ItemType
