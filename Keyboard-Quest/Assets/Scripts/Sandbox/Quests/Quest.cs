@@ -23,6 +23,7 @@ public class Quest : ScriptableObject
     public Enemy enemyToSlay;
     [HideInInspector]
     public Item itemToObtain;
+    public Sprite sprite;
     //[HideInInspector]
     //public Enemy npcToEscort;
     

@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Quest_1
   m_EditorClassIdentifier: 
   questName: Evil logs!
-  questDescription: 
-  goldReward: 0
+  questDescription: Evil logs have been running rampart in the cave. Please dispose
+    of them.
+  goldReward: 100
   itemRewards: []
   requirement: 0
-  enemyToSlay: {fileID: 0}
+  enemyToSlay: {fileID: 11400000, guid: a2fb509f90ac147e7bc9913dfaeb8ef9, type: 2}
   itemToObtain: {fileID: 0}

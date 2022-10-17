@@ -14,13 +14,13 @@ public class ItemSlot : MonoBehaviour
     [HideInInspector]
     public Item item; // The item that the gameobject is holding
     [HideInInspector]
-    public Image img; // The img that the gameobject should display
+    public Image img; // The img that the gameobject should display in the preview
     [HideInInspector]
-    public SpriteRenderer sprite; // The main img  
+    public SpriteRenderer sprite; // The image that the gameobject should display in the slot itself
     [HideInInspector]
     public Image frame; // The in game frame of main/off/tool hand items
 
-    void Start() 
+    void Awake() 
     {
         img = GetComponent<Image>(); // Get the Image component of the gameobject this is attached to
     }

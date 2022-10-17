@@ -15,14 +15,36 @@ public class WeatherManager : MonoBehaviour
     private float midTime = 1200;
     private float hourTimer = 100;
     private string amPM = "PM";
-    public Text timeIndicator;  
-    public Light2D light;
+    private Text timeIndicator;  
+    private Light2D light;
 
     public Color afternoonColor;
     public Color nightColor;
     public Color dayColor;
     public Color currentColor;
 
+    private static WeatherManager instance;
+
+     void Awake() 
+    {
+        ReassignVariables();
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject); 
+    }
+
+    public void ReassignVariables()
+    {
+        timeIndicator = GameObject.Find("TimeIndicator").GetComponent<Text>();
+        light = GameObject.Find("GlobalLight").GetComponent<Light2D>();
+    }
 
     // Change global light color + position + intensity over time
     void Update()

@@ -1,0 +1,20 @@
+Things to fix/implement:
+- Fix tile map so that it doesn't include that much wall + looks more tidy
+- Selling items
+- Item preview
+- Make proper items and not random examples
+- How items are equipped
+- Add sounds + music
+- Make buffs a thing
+- Make UI that shows quest log
+- Make first enemy
+- Make way to defeat/be defeated by enemy
+- Make quest be completed when defeating the enemy
+- Way to save
+- Fix bug where you can spam space to teleport between scenes
+- Make things have the same position regardless of screen size
+- Flowing waterfall animation
+
+THIS COMPLETES THE DEMO
+
+Once all of this is done, work on sprite sheets and sounds/music to expand the game

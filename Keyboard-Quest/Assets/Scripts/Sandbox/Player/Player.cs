@@ -25,6 +25,23 @@ public class Player : Entity
     public PlayerClass playerClass; // The placeholder variable for the chosen class of the player
     public GodFaith godFaith; // The chosen faith of the player
 
+    private static Player instance;
+
+
+    void Awake() 
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject); 
+    }
+    
     //Initialize all variables on Start
     void Start()
     {

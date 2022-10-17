@@ -33,16 +33,16 @@ public class Inventory : MonoBehaviour
 
     private Dictionary<Item.ArmorType, ItemSlot> armorSlots;
 
-    private string[] itemTypes; // The pre-defined possible categories of items
+    private static string[] itemTypes; // The pre-defined possible categories of items
     private int index; // The index of the current category being shown in the UI
 
     // In-Game display =====================================================
 
     // The frames that are shown in the in-game GUI 
-    public Image mainHandFrame, offHandFrame, toolFrame;
+    private Image mainHandFrame, offHandFrame, toolFrame;
 
     // Inventory window
-    public GameObject inventoryUI;
+    private GameObject inventoryUI;
 
     // Item Grid
     private ItemSlot[] itemSlots;
@@ -60,8 +60,15 @@ public class Inventory : MonoBehaviour
     private Text levelLabel;
     private Text currencyLabel;
 
-    void Start()
+    void Awake() 
     {
+        ReassignVariables();
+    }
+
+    public void ReassignVariables()
+    {
+        inventoryUI = GameObject.Find("Canvas").transform.Find("InventoryUI").gameObject;
+        inventoryUI.SetActive(true);
         // Get the references to the Button gameobjects
         equip = inventoryUI.transform.Find("ItemsDisplay").transform.Find("Equip").GetComponent<Button>();
         unequip = inventoryUI.transform.Find("ItemsDisplay").transform.Find("Unequip").GetComponent<Button>();
@@ -111,10 +118,15 @@ public class Inventory : MonoBehaviour
         allIndices.Add(itemTypes[3], lastKeyIndex);
         allIndices.Add(itemTypes[4], lastToolIndex);
 
+    
         // Set the frames (In game UI) of these 3 slots off
-        mainHandFrame.enabled = false;
-        offHandFrame.enabled = false;
-        toolFrame.enabled = false;
+        mainHandFrame = GameObject.Find("Canvas").transform.Find("InGameUI").transform.Find("MainHandSlot").transform.Find("Image").GetComponent<Image>();
+        offHandFrame = GameObject.Find("Canvas").transform.Find("InGameUI").transform.Find("OffHandSlot").transform.Find("Image").GetComponent<Image>();
+        toolFrame = GameObject.Find("Canvas").transform.Find("InGameUI").transform.Find("ToolSlot").transform.Find("Image").GetComponent<Image>();
+        mainHandFrame.enabled = true;
+        offHandFrame.enabled = true;
+        toolFrame.enabled = true;
+    
 
         ReloadItemCategories(); // Load for the first time the items
         
@@ -146,7 +158,6 @@ public class Inventory : MonoBehaviour
         itemDescriptionDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemDescriptionText").GetComponent<Text>();
         itemTypeDisplay = inventoryUI.transform.Find("ItemsDisplay").transform.Find("ItemTypeText").GetComponent<Text>();
         itemTypeDisplay.text = itemTypes[index];
-        inventoryUI.SetActive(false); // Set to be initially inactive 
 
 
         // Player preview // =======================
@@ -207,6 +218,7 @@ public class Inventory : MonoBehaviour
         armorSlots.Add(Item.ArmorType.legs, legsSlot);
         armorSlots.Add(Item.ArmorType.feet, feetSlot);
         armorSlots.Add(Item.ArmorType.ring, ringSlot);
+        inventoryUI.SetActive(false);
     }
 
     void ReloadItemCategories()
@@ -287,6 +299,7 @@ public class Inventory : MonoBehaviour
 
     public void DisplayNextItemType() // When the > button is pressed, show the next Item Type
     {
+        Debug.Log("Next item");
         index += 1;
         if(index > itemTypes.Length - 1)
         {
@@ -298,10 +311,12 @@ public class Inventory : MonoBehaviour
 
     public void DisplayPreviousItemType() // When the < button is pressed, show the previous Item Type
     {
+        Debug.Log("Previous item");
         index -= 1;
         if(index < 0)
         {
             index = itemTypes.Length - 1;
+            
         }
         itemTypeDisplay.text = itemTypes[index];
         ReloadItemSlots(allItems[itemTypes[index]]);
@@ -471,6 +486,7 @@ public class Inventory : MonoBehaviour
 
         if(slot.frame != null)
         {
+            // Slot Frame
             slot.frame.enabled = true;
             slot.frame.sprite = slot.item.icon;
         }
@@ -483,9 +499,11 @@ public class Inventory : MonoBehaviour
             }
         }
         
-        slot.sprite.sprite = slot.item.icon;
-        slot.sprite.enabled = true;
+        // In game UI
+        //slot.sprite.sprite = slot.item.icon;
+        //slot.sprite.enabled = true; // 
 
+        // Player preview
         slot.img.sprite = slot.item.icon;
         slot.img.color = new Color32(255,255,255,255);
         return slot.item;

@@ -57,9 +57,10 @@ public class LevelLoader : MonoBehaviour
         yield return new WaitForSeconds(transitionTime); // Wait for transitionTime seconds
         SceneManager.LoadScene(name); // Load the actual scene
         yield return new WaitForSeconds(transitionTime);
+        FindObjectOfType<WeatherManager>().ReassignVariables();
         transition.SetTrigger("End");
         FindObjectOfType<Player>().transform.position = position;
-        
+        FindObjectOfType<Player>().GetComponent<Inventory>().ReassignVariables();
         
     }
 

@@ -13,4 +13,10 @@ MonoBehaviour:
   m_Name: LogEnemy
   m_EditorClassIdentifier: 
   enemyName: Log
-  drops: []
+  goldDrop: 10
+  expDrop: 15
+  itemDrops: []
+  sprite: {fileID: -5034061168752090764, guid: 885f060cfb912497099a3c866ba456db, type: 3}
+  animator: {fileID: 0}
+  type: 0
+  isQuestTrigger: 1

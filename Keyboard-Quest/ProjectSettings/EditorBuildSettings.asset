@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Town Castle.unity
     guid: a237fe49027834c2abb866200b06647d
+  - enabled: 1
+    path: Assets/Scenes/Cave.unity
+    guid: d34fb7180ef6e495f9239aea776fa2d2
   m_configObjects: {}
